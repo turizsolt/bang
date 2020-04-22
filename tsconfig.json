@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "./build/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+    "types": [
+      "mocha",
+    ],
+    "lib": [
+      "es2016",
+      "dom"
+    ]
+  }
+}

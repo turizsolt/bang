@@ -1,0 +1,36 @@
+{
+  "name": "bang",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open",
+    "test:only": "ts-mocha --slow 5 test/**/*.test.{ts,tsx}",
+    "test": "nyc ts-mocha test/**/*.test.{ts,tsx}",
+    "posttest": "nyc report --reporter=json && nyc report --reporter=html"
+  },
+  "repository": "https://github.com/turizsolt/bang.git",
+  "author": "turizsolt <turi.zsolt.m@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/chai": "^4.2.8",
+    "@types/mocha": "^7.0.1",
+    "chai": "^4.2.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.3",
+    "css-loader": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "imports-loader": "^0.8.0",
+    "mocha": "^7.1.0",
+    "nyc": "^15.0.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.0.4",
+    "ts-mocha": "^6.0.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  }
+}
