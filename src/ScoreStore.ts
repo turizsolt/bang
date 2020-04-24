@@ -2,10 +2,14 @@ import { Role } from './Role';
 import { Ability } from './Ability';
 import { Score } from './Score';
 
+export const MAX_ARROWS = 9;
+
 export class ScoreStore {
   private players: Score[];
+  private arrows: number;
   constructor() {
     this.players = [];
+    this.arrows = MAX_ARROWS;
   }
   getScores(): Score[] {
     return this.players;
@@ -43,5 +47,34 @@ export class ScoreStore {
     if (-1 < lives && lives <= this.players[playerId].maxLives) {
       this.players[playerId].lives = lives;
     }
+  }
+  setArrows(playerId: number, arrows: number) {
+    this.arrows = this.arrows - arrows;
+    this.players[playerId].arrows = arrows;    
+  }
+  getArrowCount() {
+    return this.arrows;
+  }
+  indians() {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].lives > 0) {
+        this.players[i].lives = this.players[i].lives - this.players[i].arrows;
+        if (this.players[i].lives < 0) {
+          this.players[i].lives = 0;
+        };
+        this.players[i].arrows = 0;
+      }
+    }
+    this.arrows = MAX_ARROWS;
+  }
+  arrow(currentPlayerId) {
+    this.players[currentPlayerId].arrows++;
+    this.arrows--;
+    if (this.arrows < 1) {
+      this.indians();
+    }
+  }
+  shoot(currentPlayerId: number, receivingPlayerId: number) {
+    this.players[receivingPlayerId].lives--;
   }
 }
