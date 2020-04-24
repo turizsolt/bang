@@ -24,6 +24,7 @@ describe('Player scores - Create', () => {
         isRoleHidden: false,
         ability: Ability.None,
         arrows: 0,
+        maxLives: 10,
         lives: 10
       }
     ];
@@ -46,6 +47,7 @@ describe('Player scores - Create', () => {
         isRoleHidden: false,
         ability: Ability.None,
         arrows: 0,
+        maxLives: 10,
         lives: 10
       },
       {
@@ -53,6 +55,7 @@ describe('Player scores - Create', () => {
         isRoleHidden: true,
         ability: Ability.None,
         arrows: 0,
+        maxLives: 8,
         lives: 8
       },
       {
@@ -60,6 +63,7 @@ describe('Player scores - Create', () => {
         isRoleHidden: true,
         ability: Ability.None,
         arrows: 0,
+        maxLives: 8,
         lives: 8
       },
       {
@@ -67,6 +71,7 @@ describe('Player scores - Create', () => {
         isRoleHidden: true,
         ability: Ability.None,
         arrows: 0,
+        maxLives: 8,
         lives: 8
       },
       {
@@ -74,6 +79,7 @@ describe('Player scores - Create', () => {
         isRoleHidden: true,
         ability: Ability.None,
         arrows: 0,
+        maxLives: 8,
         lives: 8
       }
     ];

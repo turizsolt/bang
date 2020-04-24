@@ -30,12 +30,12 @@ describe('Player scores - DieCombos', () => {
     scoreStore.addPlayer(Role.Outlaw, Ability.None);
     scoreStore.addPlayer(Role.Outlaw, Ability.None);
     scoreStore.addPlayer(Role.Renegade, Ability.None);
+    scoreStore.setLives(1, 7);
     let scores = scoreStore.getScores();
-    expect(scores[1].lives).equals(8);
 
     scoreStore.beer(1, 1);
     scores = scoreStore.getScores();
-    expect(scores[1].lives).equals(9);
+    expect(scores[1].lives).equals(8);
   });
 
   it('gatling', () => {
@@ -53,7 +53,47 @@ describe('Player scores - DieCombos', () => {
     expect(scores[3].lives).equals(7);
   });
 
-  // beer above max. lives
-  // beer with dead players
-  // gatling with dead players
+  it("set player's lives", () => {
+    const scoreStore = new ScoreStore();
+    scoreStore.addPlayer(Role.Sheriff, Ability.None);
+    scoreStore.setLives(0, 2);
+    const scores = scoreStore.getScores();
+
+    expect(scores[0].lives).equals(2);
+  });
+
+  it('beer above max. lives', () => {
+    const scoreStore = new ScoreStore();
+    scoreStore.addPlayer(Role.Sheriff, Ability.None);
+    scoreStore.setLives(0, 10);
+    scoreStore.beer(0, 0);
+    const scores = scoreStore.getScores();
+
+    expect(scores[0].lives).equals(10);
+  });
+
+  it('beer with dead players', () => {
+    const scoreStore = new ScoreStore();
+    scoreStore.addPlayer(Role.Sheriff, Ability.None);
+    scoreStore.setLives(0, 0);
+    scoreStore.beer(0, 0);
+    const scores = scoreStore.getScores();
+
+    expect(scores[0].lives).equals(0);
+  });
+
+  it('gatling with dead players', () => {
+    const scoreStore = new ScoreStore();
+    scoreStore.addPlayer(Role.Sheriff, Ability.None);
+    scoreStore.addPlayer(Role.Outlaw, Ability.None);
+    scoreStore.addPlayer(Role.Outlaw, Ability.None);
+    scoreStore.addPlayer(Role.Renegade, Ability.None);
+    scoreStore.setLives(2, 0);
+    scoreStore.gatling(1);
+    const scores = scoreStore.getScores();
+    expect(scores[0].lives).equals(9);
+    expect(scores[1].lives).equals(8);
+    expect(scores[2].lives).equals(0);
+    expect(scores[3].lives).equals(7);
+  });
 });

@@ -6,5 +6,6 @@ export interface Score {
   isRoleHidden: boolean;
   ability: Ability;
   arrows: number;
+  maxLives: number;
   lives: number;
 }

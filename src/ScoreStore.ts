@@ -16,6 +16,7 @@ export class ScoreStore {
       isRoleHidden: role !== Role.Sheriff,
       ability,
       arrows: 0,
+      maxLives: role === Role.Sheriff ? 10 : 8,
       lives: role === Role.Sheriff ? 10 : 8
     };
     this.players.push(newPlayer);
@@ -26,13 +27,21 @@ export class ScoreStore {
     }
   }
   beer(currentPlayerId: number, receivingPlayerId: number) {
-    this.players[receivingPlayerId].lives++;
+    let currentLives = this.players[receivingPlayerId].lives;
+    if (currentLives != 0) {
+      this.setLives(receivingPlayerId, currentLives + 1);
+    }
   }
   gatling(currentPlayerId: number) {
     for (let i = 0; i < this.players.length; i++) {
       if (i !== currentPlayerId) {
-        this.players[i].lives--;
+        this.setLives(i, this.players[i].lives - 1);
       }
+    }
+  }
+  setLives(playerId: number, lives: number) {
+    if (-1 < lives && lives <= this.players[playerId].maxLives) {
+      this.players[playerId].lives = lives;
     }
   }
 }
