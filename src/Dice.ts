@@ -1,16 +1,24 @@
+import { StandardDie } from "./StandardDie";
 import { Die } from "./Die";
+import { Face } from "./Face";
 
 export class Dice {
     private dice: Die[];
     private isFixed: boolean[];
     private remainingRolls: number;
+
     constructor() {
-        this.dice = [new Die(), new Die(), new Die(), new Die(), new Die()];
+        this.dice = [];
         this.isFixed = [false,false,false,false,false];
         this.remainingRolls = 3;
     }
-    start() {
-        this.isFixed = [false,false,false,false,false];
+    start(withTheseDice: Die[]) {
+        this.dice = withTheseDice;
+        console.log(this.dice);
+        for (let i = 0; i < this.getDiceCount(); i++) {
+            this.isFixed[i] = false;
+        }
+        //this.isFixed = [false,false,false,false,false];
         this.remainingRolls = 3;
     }
     getRemainingRolls() {
@@ -25,10 +33,19 @@ export class Dice {
     roll() {
         if (this.remainingRolls > 0) {
             this.remainingRolls--;
+            let dynamiteCount: number = 0;
             for (let i = 0; i < this.getDiceCount(); i++) {
-                this.dice[i].roll;
+                if (!this.isFixed[i]) {
+                    this.dice[i].roll();                    
+                }
+                if (this.dice[i].getFace() === Face.Dynamite) {
+                    this.isFixed[i] = true;
+                    dynamiteCount++;
+                }
             }
-            
+            if (dynamiteCount > 2) {
+                this.finished();
+            }
         }
     }
     finished() {
@@ -41,6 +58,11 @@ export class Dice {
         this.isFixed[dieId] = true;
     }
     unfixDie(dieId: number) {
-        this.isFixed[dieId] = false;
+        if (this.dice[dieId].getFace() !== Face.Dynamite) {
+            this.isFixed[dieId] = false;
+        }
+    }
+    getDieFace(id: number): Face {
+        return this.dice[id].getFace();
     }
 }
