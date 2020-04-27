@@ -9,15 +9,16 @@
 <body>
 
   <div id="app">
+    <h1>Welcome to the {{ gameState }}</h1>
     <ol>
       <li v-for="player in players">
         {{ player.name }} <button v-on:click="removePlayer">Remove</button>
       </li>
     </ol>
-  </div>
   <input type="text" v-model="players.name" placeholder="player name"><button id="add" v-on:click="addPlayer">Add</button>
   <button id="start" v-on:click="startGame">Start</button>
   <button id="end" v-on:click="endGame">End game</button>
-
+</div>
+  
 </body>
 </html>
