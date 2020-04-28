@@ -16,18 +16,35 @@ server.listen(port, () => {
 app.use(express.static('public'));
 
 const setup = new Setup();
+function emitGame() {
+  io.emit('game', {
+    gameState: setup.getState(),
+    players: setup.getPlayerNames()
+  })
+}
 
 io.on('connection', socket => {
   socket.on('startGame', data => {
     console.log('startgmae');
     setup.startGame();
-    io.emit('game', setup.getState());
+    emitGame();
   });
 
   socket.on('endGame', data => {
     console.log('endgmae');
     setup.endGame();
-    io.emit('game', setup.getState());
+    emitGame();
   });
 
+  socket.on('addPlayer', data => {
+    console.log('new player');
+    setup.addPlayer(data.name, "picture");
+    emitGame();
+  });
+
+  socket.on('removePlayer', data => {
+
+    setup.removePlayer(data.name);
+    emitGame();
+  });
 });

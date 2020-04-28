@@ -5,9 +5,10 @@ var app = new Vue({
     el: '#app',
     data: {
         players: [
-            { name: 'Andi' }
+        
         ],
-        gameState: "lobby"
+        gameState: "lobby",
+        inputName: ""
     },
     methods: {
         startGame: function () {
@@ -23,14 +24,17 @@ var app = new Vue({
             });
         },
         addPlayer: function () {
+            if (this.inputName.trim() !== "") {
+                socket.emit('addPlayer', {
+                name: this.inputName
+                });
+                this.inputName = "";
+            }
             
-            socket.emit('newPlayer', {
-
-            });
         },
-        removePlayer: function () {
+        removePlayer: function (name) {
             socket.emit('removePlayer', {
-
+                name
             });
         },
     }
@@ -38,7 +42,8 @@ var app = new Vue({
 
 socket.on('game', data => {
     console.log(data);
-    app.gameState = data;
+    app.gameState = data.gameState;
+    app.players = data.players.map(x => ({ name: x}));
 })
 
 // socket.on('created', data => {
