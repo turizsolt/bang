@@ -13,6 +13,7 @@
     <ol>
       <li v-for="player in players">
         {{ player.name }} <button v-on:click="removePlayer(player.name)">Remove</button>
+                          <button v-on:click="kickPlayer(player.name)">Kick</button>
       </li>
     </ol>
   <input type="text" v-model="inputName" placeholder="your name here"><button id="add" v-on:click="addPlayer">Add</button>

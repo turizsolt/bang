@@ -19,6 +19,9 @@ export class Setup {
     getPlayerNames(): string[] {
         return this.players.map(x => x.name);
     }
+    getPlayers(): Player[] {
+        return this.players;
+    }
     claim(name: string, deviceType: Device, deviceId: string): void {
         const player = this.players.find(x => x.name === name);
         if (!this.isClaimed(name, deviceType)) {

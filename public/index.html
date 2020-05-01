@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My first Vue app</title>
+  <title>Player view</title>
   <script src="https://unpkg.com/vue"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="index.js"></script>
 </head>
 <body>
   <div id="app">
-    <div style="display: block;">
+    <div v-if="!chosenDevice">
       You are viewing this on {{ chosenDevice }}
       <button v-on:click="setDevice('mobile')">Mobile</button>
       <button v-on:click="setDevice('desktop')">Screen</button>
 
     </div>
-    <div>
-
+    <div v-else>
+      <div>ez egy {{chosenDevice}}</div><span>{{claimedPlayers}}</span>
+      <ol>
+        <li v-for="player in players">
+          {{ player.name }} <button v-on:click="claimPlayer(player.name)" 
+                                    v-if="canBeClaimed(player)">Claim</button>
+                            <button v-on:click="unclaimPlayer(player.name)" 
+                                    v-if="player[chosenDevice] === deviceId">Unclaim</button>        
+                                    <span>{{player.desktop}}</span>
+                                    @
+                                    <span>{{player.mobile}}</span>
+                                    <span v-if="player[chosenDevice] === deviceId">ez vagyok én</span>
+        </li>
+      </ol>
     </div>
     
   </div>

@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 const socket = io();
+socket.emit('checkin', {});
 var app = new Vue({
     el: '#app',
     data: {
@@ -26,7 +27,7 @@ var app = new Vue({
         addPlayer: function () {
             if (this.inputName.trim() !== "") {
                 socket.emit('addPlayer', {
-                name: this.inputName
+                    name: this.inputName
                 });
                 this.inputName = "";
             }
@@ -37,13 +38,18 @@ var app = new Vue({
                 name
             });
         },
+        kickPlayer: function (name) {
+            socket.emit('kickPlayer', {
+                name
+            });
+        },
     }
 })
 
 socket.on('game', data => {
     console.log(data);
     app.gameState = data.gameState;
-    app.players = data.players.map(x => ({ name: x}));
+    app.players = data.players; //.map(x => ({ name: x.name}));
 })
 
 // socket.on('created', data => {

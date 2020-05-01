@@ -19,11 +19,16 @@ const setup = new Setup();
 function emitGame() {
   io.emit('game', {
     gameState: setup.getState(),
-    players: setup.getPlayerNames()
+    players: setup.getPlayers()
   })
 }
 
 io.on('connection', socket => {
+  socket.on('checkin', data => {
+    console.log("hajj");
+    emitGame();
+  });
+
   socket.on('startGame', data => {
     console.log('startgmae');
     setup.startGame();
@@ -45,6 +50,24 @@ io.on('connection', socket => {
   socket.on('removePlayer', data => {
 
     setup.removePlayer(data.name);
+    emitGame();
+  });
+
+  socket.on('claimPlayer', data => {
+    setup.claim(data.name, data.device, data.id);
+    console.log(setup.whoClaimed(data.name,data.device));
+    emitGame();
+  });
+
+  socket.on('unclaimPlayer', data => {
+    setup.unclaim(data.name, data.device, data.id);
+    console.log("unclaim");
+    emitGame();
+  });
+
+  socket.on('kickPlayer', data => {
+    setup.kick(data.name)
+    console.log("kicked");
     emitGame();
   });
 });
