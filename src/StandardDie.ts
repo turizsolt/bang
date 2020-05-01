@@ -9,7 +9,7 @@ export class StandardDie implements Die {
         this.topFace = Face.Arrow;
     }
     roll() {
-        let result = Math.floor(Math.random()*5);
+        let result = Math.floor(Math.random()*6);
         this.topFace = this.faces[result];
     }
     getFace() {

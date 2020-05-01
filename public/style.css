@@ -1,0 +1,21 @@
+body {
+    background-color: bisque;
+
+}
+
+.die {
+    height: 60px;
+    width: 60px;
+    background-color: chocolate;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+.score {
+    height: 200px;
+    width: 100px;
+    padding: 10px;
+    margin: 10px;
+    background-color: darkgreen;
+}

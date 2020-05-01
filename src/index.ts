@@ -3,6 +3,9 @@ import { Setup } from "./Setup";
 import express from 'express';
 import * as http from 'http';
 import SocketIO from 'socket.io';
+import { Dice } from "./Dice";
+import { StandardDie } from "./StandardDie";
+import { ScoreStore } from "./ScoreStore";
 
 const app = express();
 const server = http.createServer(app);
@@ -16,10 +19,16 @@ server.listen(port, () => {
 app.use(express.static('public'));
 
 const setup = new Setup();
+const scoreStore = new ScoreStore();
+const dice = new Dice();
+const withTheseDice = [new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie()];
+dice.start(withTheseDice);
 function emitGame() {
+  console.log(dice);
   io.emit('game', {
     gameState: setup.getState(),
-    players: setup.getPlayers()
+    players: setup.getPlayers(),
+    dice: dice
   })
 }
 
@@ -66,8 +75,27 @@ io.on('connection', socket => {
   });
 
   socket.on('kickPlayer', data => {
-    setup.kick(data.name)
+    setup.kick(data.name);
     console.log("kicked");
+    emitGame();
+  });
+
+  socket.on('roll', data => {
+    dice.roll();
+    console.log("rolled");
+    emitGame();
+  });
+
+  socket.on('reset', data => {
+    dice.start(withTheseDice);
+    console.log("reset");
+    emitGame();
+  });
+
+  socket.on('fix', data => {
+    dice.fixDie(data.dieId);
+
+    console.log(data.dieId);
     emitGame();
   });
 });

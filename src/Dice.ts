@@ -13,6 +13,7 @@ export class Dice {
         this.remainingRolls = 3;
     }
     start(withTheseDice: Die[]) {
+        
         this.dice = withTheseDice;
         console.log(this.dice);
         for (let i = 0; i < this.getDiceCount(); i++) {
@@ -35,8 +36,10 @@ export class Dice {
             this.remainingRolls--;
             let dynamiteCount: number = 0;
             for (let i = 0; i < this.getDiceCount(); i++) {
+                console.log(i);
                 if (!this.isFixed[i]) {
                     this.dice[i].roll();                    
+                    console.log(i, this.dice[i].getFace());
                 }
                 if (this.dice[i].getFace() === Face.Dynamite) {
                     this.isFixed[i] = true;
@@ -55,6 +58,7 @@ export class Dice {
         this.remainingRolls = 0;
     }
     fixDie(dieId: number) {
+        console.log("im fixed");
         this.isFixed[dieId] = true;
     }
     unfixDie(dieId: number) {

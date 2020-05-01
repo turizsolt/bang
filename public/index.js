@@ -11,7 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
             deviceId: parseInt(localStorage.getItem("deviceId")),
             gameState: "lobby",
             players: [],
-            claimedPlayers: []
+            claimedPlayers: [],
+            dice: [],
+            remainingRolls: 3,
+            isFixed: []
         },
         methods: {
             generateDeviceId: function() {
@@ -50,7 +53,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     device: this.chosenDevice,
                     id: this.deviceId
                 });
-            }
+            },
+            roll: function() {
+                socket.emit('roll', {
+                    
+                });
+            },
+            resetDice: function() {
+                socket.emit('reset', {
+                    
+                });
+            },
+            fixDie: function(dieId) {
+                console.log("im clicked");
+                socket.emit('fix', {
+                    dieId,
+
+                });
+            },
         },
 
     });
@@ -63,7 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if(player[app.chosenDevice] === app.deviceId) {
                 app.claimedPlayers.push(player.name);
             } 
-        }
+        };
+        app.dice = data.dice.dice;
+        app.remainingRolls = data.dice.remainingRolls;
+        app.isFixed = data.dice.isFixed;
     })
 });
 

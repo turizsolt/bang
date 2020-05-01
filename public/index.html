@@ -5,31 +5,50 @@
   <script src="https://unpkg.com/vue"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="index.js"></script>
+  <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <div id="app">
-    <div v-if="!chosenDevice">
-      You are viewing this on {{ chosenDevice }}
-      <button v-on:click="setDevice('mobile')">Mobile</button>
-      <button v-on:click="setDevice('desktop')">Screen</button>
+    <div v-if="gameState === 'lobby'">
+      <div v-if="!chosenDevice">
+        You are viewing this on {{ chosenDevice }}
+        <button v-on:click="setDevice('mobile')">Mobile</button>
+        <button v-on:click="setDevice('desktop')">Screen</button>
 
+      </div>
+      <div v-else>
+        <div>ez egy {{chosenDevice}}</div><span>{{claimedPlayers}}</span>
+        <ol>
+          <li v-for="player in players">
+            {{ player.name }} <button v-on:click="claimPlayer(player.name)" 
+                                      v-if="canBeClaimed(player)">Claim</button>
+                              <button v-on:click="unclaimPlayer(player.name)" 
+                                      v-if="player[chosenDevice] === deviceId">Unclaim</button>        
+                                      <span>{{player.desktop}}</span>
+                                      @
+                                      <span>{{player.mobile}}</span>
+                                      <span v-if="player[chosenDevice] === deviceId">ez vagyok én</span>
+          </li>
+        </ol>
+      </div>
     </div>
-    <div v-else>
-      <div>ez egy {{chosenDevice}}</div><span>{{claimedPlayers}}</span>
-      <ol>
-        <li v-for="player in players">
-          {{ player.name }} <button v-on:click="claimPlayer(player.name)" 
-                                    v-if="canBeClaimed(player)">Claim</button>
-                            <button v-on:click="unclaimPlayer(player.name)" 
-                                    v-if="player[chosenDevice] === deviceId">Unclaim</button>        
-                                    <span>{{player.desktop}}</span>
-                                    @
-                                    <span>{{player.mobile}}</span>
-                                    <span v-if="player[chosenDevice] === deviceId">ez vagyok én</span>
-        </li>
-      </ol>
+    <div v-if="gameState === 'game'">
+      <div id="diceHolder">
+        
+          <div class="die" v-for="(die, index) in dice" v-on:click="fixDie(index)">
+            {{die.topFace}} {{isFixed[index]}}
+          </div>
+        <div>Remaining rolls: {{remainingRolls}}</div>
+        <button v-on:click="roll">Roll dice</button>
+        <button v-on:click="resetDice">Reset dice</button>
+      </div>
+      <div id="playingArea">
+        <div v-for="player in players" class="score">
+          {{player.name}}
+        </div>
+      </div>
     </div>
-    
+
   </div>
 
 </body>
