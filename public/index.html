@@ -3,19 +3,22 @@
 <head>
   <title>My first Vue app</title>
   <script src="https://unpkg.com/vue"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="index.js"></script>
 </head>
 <body>
   <div id="app">
-    {{ message }}
+    <div style="display: block;">
+      You are viewing this on {{ chosenDevice }}
+      <button v-on:click="setDevice('mobile')">Mobile</button>
+      <button v-on:click="setDevice('desktop')">Screen</button>
+
+    </div>
+    <div>
+
+    </div>
+    
   </div>
 
-  <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        message: 'Hello Vue!'
-      }
-    })
-  </script>
 </body>
 </html>
