@@ -16,7 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
             dice: [],
             remainingRolls: 3,
             isFixed: [],
-            isUsed: []
+            isUsed: [],
+            //next: startingPlayerName
+
         },
         methods: {
             generateDeviceId: function() {
@@ -26,15 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
             setDevice: function(device) {
                 this.chosenDevice = device;
                 localStorage.setItem("device", this.chosenDevice);
-
                 this.deviceId = this.generateDeviceId();
                 localStorage.setItem("deviceId",this.deviceId);
             },
 
-
-            claimPlayer: function(name) {
-
-                
+            claimPlayer: function(name) {                
                 socket.emit('claimPlayer', {
                     name,
                     device: this.chosenDevice,
@@ -42,14 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             },
             canBeClaimed: function (player) {
-                let canBeClaimed = true;
-                
+                let canBeClaimed = true;                
                 if(player[this.chosenDevice]) canBeClaimed = false;
                 if(this.chosenDevice === "mobile" && this.claimedPlayers.length > 0) canBeClaimed = false;
                 return canBeClaimed;
             },
-            unclaimPlayer: function(name) {
-                
+            unclaimPlayer: function(name) {                
                 socket.emit('unclaimPlayer', {
                     name,
                     device: this.chosenDevice,
@@ -62,30 +58,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             },
             resetDice: function() {
-                socket.emit('reset', {
-                    
+                socket.emit('reset', {                    
                 });
             },
             fixDie: function(dieId) {
                 console.log("im clicked");
                 socket.emit('fix', {
                     dieId,
-
                 });
             },
             finish: function() {
-                socket.emit('finish', {
-                    
+                socket.emit('finish', {                 
                 });
+            },
+            nextPlayer: function() {
+
             }
         },
         computed: {
-            currentPlayerName: function() {
-                let arr = this.scores.players.filter(x => x.role === "seriff");
-                
-                return arr[0].player.name;
-                
+            startingPlayerName: function() {
+                let arr = this.scores.players.filter(x => x.role === "seriff");                
+                return arr[0].player.name;                
             },
+
         },
     
 

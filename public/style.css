@@ -3,6 +3,7 @@ body {
 
 }
 
+
 .die {
     height: 60px;
     width: 60px;
@@ -13,7 +14,6 @@ body {
 }
 
 .fixed {
-    border-color: darkmagenta;
     background-color: darkred;
 }
 

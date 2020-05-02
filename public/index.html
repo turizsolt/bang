@@ -48,8 +48,8 @@
       </div>
       <div id="playingArea">
         <div>Nyilak: {{scores.arrows}}</div>
-        <div>Ki van soron: {{currentPlayerName}}</div>
-        <div v-for="player in scores.players" class="score">
+        <div>Kezdőjátékos: {{startingPlayerName}}</div>
+        <div v-for="(player, index) in scores.players" class="score">
           {{player.player.name}}
           <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
           Nyilak: {{player.arrows}}<br>

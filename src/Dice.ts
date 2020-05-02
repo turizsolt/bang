@@ -5,11 +5,13 @@ import { Face } from "./Face";
 export class Dice {
     private dice: Die[];
     private isFixed: boolean[];
+    private isUsed: boolean[];
     private remainingRolls: number;
 
     constructor() {
         this.dice = [];
         this.isFixed = [false,false,false,false,false];
+        this.isUsed = [false,false,false,false,false];
         this.remainingRolls = 3;
     }
     start(withTheseDice: Die[]) {
@@ -18,6 +20,7 @@ export class Dice {
         console.log(this.dice);
         for (let i = 0; i < this.getDiceCount(); i++) {
             this.isFixed[i] = false;
+            this.isUsed[i] = false;
         }
         //this.isFixed = [false,false,false,false,false];
         this.remainingRolls = 3;
@@ -47,6 +50,7 @@ export class Dice {
                 }
             }
             if (dynamiteCount > 2) {
+                
                 this.finished();
             }
         }
