@@ -19,7 +19,7 @@ server.listen(port, () => {
 app.use(express.static('public'));
 
 const setup = new Setup();
-const scoreStore = new ScoreStore();
+var scoreStore = new ScoreStore();
 const dice = new Dice();
 const withTheseDice = [new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie()];
 dice.start(withTheseDice);
@@ -27,8 +27,9 @@ function emitGame() {
   console.log(dice);
   io.emit('game', {
     gameState: setup.getState(),
-    players: setup.getPlayers(),
-    dice: dice
+    users: setup.getUsers(),
+    dice: dice,
+    scoreStore: scoreStore
   })
 }
 
@@ -41,6 +42,7 @@ io.on('connection', socket => {
   socket.on('startGame', data => {
     console.log('startgmae');
     setup.startGame();
+    scoreStore = setup.generateAllPlayers();
     emitGame();
   });
 
@@ -52,13 +54,13 @@ io.on('connection', socket => {
 
   socket.on('addPlayer', data => {
     console.log('new player');
-    setup.addPlayer(data.name, "picture");
+    setup.addUser(data.name, "picture");
     emitGame();
   });
 
   socket.on('removePlayer', data => {
 
-    setup.removePlayer(data.name);
+    setup.removeUser(data.name);
     emitGame();
   });
 
@@ -96,6 +98,12 @@ io.on('connection', socket => {
     dice.fixDie(data.dieId);
 
     console.log(data.dieId);
+    emitGame();
+  });
+
+  socket.on('finish', data => {
+    dice.finished();
+    console.log("finished");
     emitGame();
   });
 });

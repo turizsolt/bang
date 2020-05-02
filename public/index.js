@@ -11,10 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
             deviceId: parseInt(localStorage.getItem("deviceId")),
             gameState: "lobby",
             players: [],
+            scores: [],
             claimedPlayers: [],
             dice: [],
             remainingRolls: 3,
-            isFixed: []
+            isFixed: [],
+            isUsed: []
         },
         methods: {
             generateDeviceId: function() {
@@ -71,15 +73,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 });
             },
+            finish: function() {
+                socket.emit('finish', {
+                    
+                });
+            }
         },
+        computed: {
+            currentPlayerName: function() {
+                let arr = this.scores.players.filter(x => x.role === "seriff");
+                
+                return arr[0].player.name;
+                
+            },
+        },
+    
 
     });
     socket.on('game', data => {
         console.log(data);
         app.gameState = data.gameState;
-        app.players = data.players;
+        app.players = data.users;
         app.claimedPlayers = [];
-        for (const player of data.players) {
+        for (const player of data.users) {
             if(player[app.chosenDevice] === app.deviceId) {
                 app.claimedPlayers.push(player.name);
             } 
@@ -87,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         app.dice = data.dice.dice;
         app.remainingRolls = data.dice.remainingRolls;
         app.isFixed = data.dice.isFixed;
+        app.scores = data.scoreStore;
     })
 });
 

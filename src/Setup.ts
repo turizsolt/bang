@@ -1,50 +1,54 @@
-import { Player } from "./Player";
+import { User } from "./Player";
 import { Device } from "./Device";
 import { GameState } from "./GameState";
+import { ScoreStore } from "./ScoreStore";
+import { Ability } from "./Ability";
+import { Role } from "./Role";
 
 export class Setup {
-    private players: Player[];
+    private users: User[];
     private gameState: GameState;
+
     constructor() {
-        this.players = [];
+        this.users = [];
         this.gameState = GameState.Lobby;
     }
-    addPlayer(name: string, pic: string): void {
-        let newPlayer: Player = {name, pic};
-        this.players.push(newPlayer);
+    addUser(name: string, pic: string): void {
+        let newUser: User = {name, pic};
+        this.users.push(newUser);
     }
-    removePlayer(name: string):void {
-        this.players = this.players.filter(x => x.name !== name);
+    removeUser(name: string):void {
+        this.users = this.users.filter(x => x.name !== name);
     }
-    getPlayerNames(): string[] {
-        return this.players.map(x => x.name);
+    getUserNames(): string[] {
+        return this.users.map(x => x.name);
     }
-    getPlayers(): Player[] {
-        return this.players;
+    getUsers(): User[] {
+        return this.users;
     }
     claim(name: string, deviceType: Device, deviceId: string): void {
-        const player = this.players.find(x => x.name === name);
+        const user = this.users.find(x => x.name === name);
         if (!this.isClaimed(name, deviceType)) {
-            player[deviceType] = deviceId;
+            user[deviceType] = deviceId;
         }
     }
     unclaim(name: string, deviceType: Device, deviceId: string): void {
-        const player = this.players.find(x => x.name === name);
-        player[deviceType] = undefined;
+        const user = this.users.find(x => x.name === name);
+        user[deviceType] = undefined;
     }
     isClaimed(name: string, deviceType: Device): boolean {
-        const player = this.players.find(x => x.name === name);
-        return !!player[deviceType];
+        const user = this.users.find(x => x.name === name);
+        return !!user[deviceType];
     }
     whoClaimed(name: string, deviceType: Device): string {
-        const player = this.players.find(x => x.name === name);
+        const user = this.users.find(x => x.name === name);
 
-        return player[deviceType];
+        return user[deviceType];
     }
     kick(name: string): void {
-        const player = this.players.find(x => x.name === name);
-        player.desktop = undefined;
-        player.mobile = undefined;
+        const user = this.users.find(x => x.name === name);
+        user.desktop = undefined;
+        user.mobile = undefined;
     }
 
     getState(): GameState {
@@ -52,8 +56,31 @@ export class Setup {
     }
     startGame(): void {
         this.gameState = GameState.Game;
+
+        //shuffle player order
+        //add players scoreboards
+        //shuffle deck
+        //add roles to scoreboards
     }
     endGame(): void {
         this.gameState = GameState.Lobby;
+    }
+    generateAllPlayers(): ScoreStore {
+        let playerCount = this.users.length;
+        let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy];
+        let roles = possibleRoles.slice(0,playerCount);
+        roles = this.shuffle(roles);
+        console.log("szerepek: ",roles);
+        const scoreStore = new ScoreStore();
+        for(let i = 0; i < playerCount; i++) {
+            scoreStore.addPlayer(roles[i],Ability.None,this.users[i]);
+        }
+        return scoreStore;
+    }
+    shuffle (arr: Role[]): Role[] {
+        return arr
+            .map((a:Role) => [Math.random(), a])
+            .sort((a:[number, Role], b:[number, Role]) => a[0] - b[0])
+            .map((a:[number, Role]) => a[1]);
     }
 }

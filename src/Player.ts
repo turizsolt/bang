@@ -1,7 +1,7 @@
 import { Device } from "./Device";
 
 const n = 'name';
-export interface Player {
+export interface User {
     name: string;
     pic: string;
     [Device.Mobile]?: string;

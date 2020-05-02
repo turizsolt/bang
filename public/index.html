@@ -35,16 +35,29 @@
     <div v-if="gameState === 'game'">
       <div id="diceHolder">
         
-          <div class="die" v-for="(die, index) in dice" v-on:click="fixDie(index)">
+          <div class="die" 
+                v-for="(die, index) in dice" 
+                v-on:click="fixDie(index)" 
+                v-bind:class="{ fixed: isFixed[index] }">
             {{die.topFace}} {{isFixed[index]}}
           </div>
         <div>Remaining rolls: {{remainingRolls}}</div>
         <button v-on:click="roll">Roll dice</button>
         <button v-on:click="resetDice">Reset dice</button>
+        <button v-on:click="finish">Finish rolling</button>
       </div>
       <div id="playingArea">
-        <div v-for="player in players" class="score">
-          {{player.name}}
+        <div>Nyilak: {{scores.arrows}}</div>
+        <div>Ki van soron: {{currentPlayerName}}</div>
+        <div v-for="player in scores.players" class="score">
+          {{player.player.name}}
+          <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
+          Nyilak: {{player.arrows}}<br>
+          Töltények: {{player.lives}}
+          <span></span>
+          <!--
+          {{arrows}}
+          {{bullets}}--->
         </div>
       </div>
     </div>

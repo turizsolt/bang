@@ -1,6 +1,6 @@
 export enum Role {
-  Sheriff,
-  Outlaw,
-  Renegade,
-  Deputy
+  Sheriff = "seriff",
+  Outlaw = "bandita",
+  Renegade = "renegát",
+  Deputy = "helyettes"
 }

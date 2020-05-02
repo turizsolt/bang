@@ -1,5 +1,6 @@
 import { Role } from './Role';
 import { Ability } from './Ability';
+import { User } from './Player';
 
 export interface Score {
   role: Role;
@@ -8,4 +9,5 @@ export interface Score {
   arrows: number;
   maxLives: number;
   lives: number;
+  player: User;
 }

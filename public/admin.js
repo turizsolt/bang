@@ -49,7 +49,7 @@ var app = new Vue({
 socket.on('game', data => {
     console.log(data);
     app.gameState = data.gameState;
-    app.players = data.players; //.map(x => ({ name: x.name}));
+    app.players = data.users; //.map(x => ({ name: x.name}));
 })
 
 // socket.on('created', data => {
