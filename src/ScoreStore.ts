@@ -64,6 +64,8 @@ export class ScoreStore {
         this.setLives(i, this.players[i].lives - 1);
       }
     }
+    this.arrows = this.arrows + this.players[currentPlayerId].arrows;
+    this.players[currentPlayerId].arrows = 0;
   }
   setLives(playerId: number, lives: number) {
     if (-1 < lives && lives <= this.players[playerId].maxLives) {
