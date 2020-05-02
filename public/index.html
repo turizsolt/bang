@@ -38,12 +38,12 @@
           <button v-on:click="startTurn">Kör megkezdése</button>
         </div>
       </div>     
-      <div>
-        <div v-for="(dice, index) in dieOrder" class="dieOrderElement">
-          <span v-for="die in dice" class="dieElement">
-            {{die}}
-          </span>  
-          <span v-if="index === currentOrder">Ez</span>
+      <div class="phaseContainer">
+        Fázis
+        <div class="dieOrderContainer">
+          <div v-for="(dice, index) in dieOrder" v-bind:class="{dieOrderElement:true, current:index === currentOrder}">
+            <img v-for="die in dice" class="dieElement" v-bind:src="`/${die}.png`" />
+          </div>
         </div>
       </div>
       <div id="diceHolder">

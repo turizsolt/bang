@@ -51,12 +51,33 @@ body {
     background-color: #cfb128;
 }
 
+.phaseContainer {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.dieOrderContainer {
+    display: flex;
+}
+
 .dieOrderElement {
-    border: 1px solid red;
+    padding: 5px;
+}
+
+.dieOrderElement.current {
+    padding: 5px;
+    border: 1px solid blue;
+    background-color: lightskyblue;
+    border-radius: 3px;
+    height: 32px;
+    min-width: 32px;
 }
 
 .dieElement {
-    border: 1px solid blue;
+    width: 30px;
+    border: 1px solid black;
+    border-radius: 3px;
 }
 
 button:disabled {
