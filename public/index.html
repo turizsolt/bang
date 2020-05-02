@@ -77,14 +77,19 @@
       </div>     
       
       <div id="playingArea">
-        <div>Nyilak: {{scores.arrows}}</div>
-        <div>Soronlévő játékos: {{currentPlayer}} {{currentPlayerName}}</div>
+        <div class="arrowHolder">Nyilak: {{scores.arrows}}</div>
         <div class="scoreHolder">
-          <div v-for="(player, index) in scores.players" v-bind:class="{score:true, dead: player.lives <= 0, current: currentPlayer === index}">
+          <div 
+            v-for="(player, index) in scores.players" 
+            v-bind:class="{score:true, dead: player.lives <= 0, current: currentPlayer === index}"
+            v-bind:style="{left: `${600-300*Math.sin(Math.PI*2/scores.players.length*index)}px`, top: `${300+300*Math.cos(Math.PI*2/scores.players.length*index)}px`}">
             {{player.player.name}}
             <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
             Nyilak: {{player.arrows}}<br>
             Töltények: {{player.lives}}<br>
+            <!--<div class="bullet-holder">
+              <img v-for="i in player.lives" src="/bullet.png" />
+            </div>-->
             <button v-if="using !== -1" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
           </div>
         </div>

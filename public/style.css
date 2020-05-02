@@ -95,12 +95,19 @@ button.roll, button.keep {
     display: flex;
 }
 
+.arrowHolder {
+    position: absolute;
+    left: 670px;
+    top: 370px;
+}
+
 .score {
-    height: 200px;
-    width: 130px;
+    height: 140px;
+    width: 140px;
     padding: 10px;
     margin: 10px;
-    background-color: darkgreen;
+    position: absolute;
+    background-color: #bda994;
 }
 
 .score.dead {
@@ -108,11 +115,12 @@ button.roll, button.keep {
 }
 
 .score.current {
-    background-color: #cfb128;
+    background-color: #a28d2e;
 }
 
 .topContainer {
     display: flex;
+    justify-content: space-between;
 }
 
 .remainingContainer {
@@ -216,3 +224,12 @@ button:disabled {
       transform: translate3d(4px, 0, 0);
     }
   }
+
+  .bullet-holder {
+    background-color: bisque;
+  }
+
+  .bullet-holder img {
+    margin: 2px 1px 0 3px;
+}
+  
