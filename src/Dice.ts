@@ -169,6 +169,12 @@ export class Dice {
             if(scores[i].lives <= 0) {
                 targetable = false;
             }
+            if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),1) && [Face.BullsEye1].includes(this.dice[this.using].getFace())) {
+                targetable = false;
+            }
+            if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),2) && [Face.BullsEye2].includes(this.dice[this.using].getFace())) {
+                targetable = false;
+            }
             this.targetablePlayers.push(targetable);
         }
     }

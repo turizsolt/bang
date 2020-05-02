@@ -67,7 +67,7 @@ export class Setup {
     }
     generateAllPlayers(scoreStore:ScoreStore) {
         let playerCount = this.users.length;
-        let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy];
+        let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy, Role.Outlaw, Role.Deputy, Role.Renegade, Role.Outlaw];
         let roles = possibleRoles.slice(0,playerCount);
         roles = this.shuffle(roles);
         console.log("szerepek: ",roles);

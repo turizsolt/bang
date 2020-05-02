@@ -99,4 +99,46 @@ export class ScoreStore {
   shoot(currentPlayerId: number, receivingPlayerId: number) {
     this.players[receivingPlayerId].lives--;
   }
+  isDistance(onePlayerId: number, otherPlayerId: number, dist: number) {
+    console.log('dist', onePlayerId, otherPlayerId, dist);
+    // left
+    let count = 0;
+    let pos = onePlayerId;
+    while(pos !== otherPlayerId) {
+      pos++;
+      if(pos === this.players.length) {
+        pos = 0;
+      }
+      if(this.players[pos].lives > 0) {
+        count++;
+      }
+    }
+    console.log('poz', count);
+    if(count === dist) {
+      return true;
+    }
+    // right
+    let countR = 0;
+    pos = onePlayerId;
+    while(pos !== otherPlayerId) {
+      if(pos === 0) {
+        pos = this.players.length;
+      }
+      pos--;
+      if(this.players[pos].lives > 0) {
+        countR++;
+      }
+    }
+    console.log('neg', countR);
+    if(countR === dist) {
+      return true;
+    }
+
+    if(count === 1 && countR === 1) {
+      return true;
+    } 
+    console.log('false');
+
+    return false;
+  }
 }

@@ -58,7 +58,7 @@
         <div>Nyilak: {{scores.arrows}}</div>
         <div>Soronlévő játékos: {{currentPlayer}} {{currentPlayerName}}</div>
         <div class="scoreHolder">
-          <div v-for="(player, index) in scores.players" v-bind:class="{score:true, dead: player.lives <= 0}">
+          <div v-for="(player, index) in scores.players" v-bind:class="{score:true, dead: player.lives <= 0, current: currentPlayer === index}">
             {{player.player.name}}
             <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
             Nyilak: {{player.arrows}}<br>

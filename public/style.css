@@ -47,10 +47,18 @@ body {
     background-color: #0064005b;
 }
 
+.score.current {
+    background-color: #cfb128;
+}
+
 .dieOrderElement {
     border: 1px solid red;
 }
 
 .dieElement {
     border: 1px solid blue;
+}
+
+button:disabled {
+    opacity: 0.1;
 }
