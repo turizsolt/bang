@@ -25,10 +25,32 @@ body {
     background-color: lime;
 }
 
+.ordered {
+    border: 2px solid black;
+    height: 56px;
+    width: 56px;
+}
+
+.scoreHolder {
+    display: flex;
+}
+
 .score {
     height: 200px;
     width: 130px;
     padding: 10px;
     margin: 10px;
     background-color: darkgreen;
+}
+
+.score.dead {
+    background-color: #0064005b;
+}
+
+.dieOrderElement {
+    border: 1px solid red;
+}
+
+.dieElement {
+    border: 1px solid blue;
 }

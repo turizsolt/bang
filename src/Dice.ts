@@ -1,4 +1,3 @@
-import { StandardDie } from "./StandardDie";
 import { Die } from "./Die";
 import { Face } from "./Face";
 import { ScoreStore } from "./ScoreStore";
@@ -10,14 +9,18 @@ export class Dice {
     private isUsed: boolean[];
     private remainingRolls: number;
     private using: number;
+    private currentOrder: number;
+    private dieOrder: Face[][];
 
     constructor(private scoreStore?:ScoreStore) {
         this.dice = [];
+        this.dieOrder = [[Face.Arrow], [Face.Dynamite], [Face.BullsEye1, Face.BullsEye2], [Face.Beer], [Face.Gatling], []];
         this.isFixed = [false,false,false,false,false];
         this.isUsed = [false,false,false,false,false];
         this.remainingRolls = 3;
         this.hasRolled = false;
         this.using = -1;
+        this.currentOrder = 0;
     }
     start(withTheseDice: Die[]) {
         
@@ -30,6 +33,7 @@ export class Dice {
         //this.isFixed = [false,false,false,false,false];
         this.remainingRolls = 3;
         this.hasRolled = false;
+        this.currentOrder = 0;
     }
     getRemainingRolls() {
         return this.remainingRolls;
@@ -81,25 +85,48 @@ export class Dice {
             }
         }
     }
+    nextOrder() {
+        let count = 0;
+        const alloweds = this.dieOrder[this.currentOrder];
+        for (let i = 0; i < this.getDiceCount(); i++) {
+            if(!this.isUsed[i] && alloweds.includes(this.dice[i].getFace())) {
+                count++;
+            }
+        }
+        console.log('next order count', count);
+
+        if(this.currentOrder === 4) {
+            console.log('resolving gatlings');
+            // count gatlings
+            var gatlingCount = 0;
+            for (let i = 0; i < this.getDiceCount(); i++) {
+                if(this.dice[i].getFace() === Face.Gatling){
+                    gatlingCount++;
+                }
+            }   
+
+            // is there three gatling to take effect?
+            if(gatlingCount > 2) {
+                this.scoreStore.gatling(this.scoreStore.getCurrent());
+            }
+
+            this.currentOrder++;
+            this.nextOrder();
+        } else if(count === 0 && this.currentOrder<5) {
+            console.log('next++');
+            this.currentOrder++;
+            this.nextOrder();
+        }
+    }
+
     finished() {
         if(!this.hasRolled) return;
         for (let i = 0; i < this.getDiceCount(); i++) {
             this.isFixed[i] = true;
         }
         this.remainingRolls = 0;
-
-        // count gatlings
-        var gatlingCount = 0;
-        for (let i = 0; i < this.getDiceCount(); i++) {
-            if(this.dice[i].getFace() === Face.Gatling){
-                gatlingCount++;
-            }
-        }   
-
-        // is there three gatling to take effect?
-        if(gatlingCount > 2) {
-            this.scoreStore.gatling(this.scoreStore.getCurrent());
-        }
+        this.currentOrder = 2;
+        this.nextOrder();
 
         // set arrows, dynamite and gatling dice to used, as they are used
         for (let i = 0; i < this.getDiceCount(); i++) {
@@ -123,6 +150,8 @@ export class Dice {
     }
     selectToUseDie(dieId: number) {
         if(this.remainingRolls !== 0) return;
+        const alloweds = this.dieOrder[this.currentOrder];
+        if(!alloweds.includes(this.dice[dieId].getFace()))return;
         if(!this.isUsed[dieId]) {
             this.using = dieId;
         }
@@ -149,6 +178,7 @@ export class Dice {
         }
         this.isUsed[this.using] = true;
         this.using = -1;
+        this.nextOrder();
         this.checkIfUsedAllTheDice();
     }
     getDieFace(id: number): Face {

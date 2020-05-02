@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
             using: -1,
             currentPlayer: -1,
             currentPlayerName: "",
+            dieOrder: [],
+            currentOrder: -1
 
         },
         methods: {
@@ -121,6 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
         app.currentPlayer = data.scoreStore.current;
         app.currentPlayerName = data.scoreStore.players[data.scoreStore.current].player.name;
         app.using = data.dice.using;
+        app.dieOrder = data.dice.dieOrder;
+        app.currentOrder = data.dice.currentOrder;
     })
 });
 

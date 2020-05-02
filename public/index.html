@@ -33,12 +33,20 @@
       </div>
     </div>
     <div v-if="gameState === 'game'">
+      <div>
+        <div v-for="(dice, index) in dieOrder" class="dieOrderElement">
+          <span v-for="die in dice" class="dieElement">
+            {{die}}
+          </span>  
+          <span v-if="index === currentOrder">Ez</span>
+        </div>
+      </div>
       <div id="diceHolder">
         
           <div class="die" 
                 v-for="(die, index) in dice" 
                 v-on:click="fixDie(index)" 
-                v-bind:class="{ fixed: isFixed[index], used: isUsed[index], using: using === index }">
+                v-bind:class="{ fixed: isFixed[index], used: isUsed[index], using: using === index, ordered: dieOrder[currentOrder].includes(die.topFace) }">
             {{die.topFace}} {{isFixed[index]}} {{isUsed[index]}}
           </div>
         <div>Remaining rolls: {{remainingRolls}}</div>
@@ -49,16 +57,14 @@
       <div id="playingArea">
         <div>Nyilak: {{scores.arrows}}</div>
         <div>Soronlévő játékos: {{currentPlayer}} {{currentPlayerName}}</div>
-        <div v-for="(player, index) in scores.players" class="score">
-          {{player.player.name}}
-          <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
-          Nyilak: {{player.arrows}}<br>
-          Töltények: {{player.lives}}<br>
-          <button v-if="using !== -1" v-on:click="chooseTarget(index)">Kiválaszt</button>
-          <span></span>
-          <!--
-          {{arrows}}
-          {{bullets}}--->
+        <div class="scoreHolder">
+          <div v-for="(player, index) in scores.players" v-bind:class="{score:true, dead: player.lives <= 0}">
+            {{player.player.name}}
+            <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
+            Nyilak: {{player.arrows}}<br>
+            Töltények: {{player.lives}}<br>
+            <button v-if="using !== -1" v-on:click="chooseTarget(index)">Kiválaszt</button>
+          </div>
         </div>
       </div>
     </div>
