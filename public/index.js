@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         app.dice = data.dice.dice;
         app.remainingRolls = data.dice.remainingRolls;
         app.isFixed = data.dice.isFixed;
+        app.isUsed = data.dice.isUsed;
         app.scores = data.scoreStore;
     })
 });

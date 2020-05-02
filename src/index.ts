@@ -95,7 +95,11 @@ io.on('connection', socket => {
   });
 
   socket.on('fix', data => {
-    dice.fixDie(data.dieId);
+    if(dice.getFixedDice()[data.dieId]) {
+      dice.unfixDie(data.dieId);
+    } else {
+      dice.fixDie(data.dieId);
+    }
 
     console.log(data.dieId);
     emitGame();

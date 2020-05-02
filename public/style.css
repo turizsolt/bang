@@ -14,7 +14,11 @@ body {
 }
 
 .fixed {
-    background-color: darkred;
+    background-color: rgb(161, 98, 98);
+}
+
+.used, .used.fixed {
+    background-color: lightgray;
 }
 
 .score {

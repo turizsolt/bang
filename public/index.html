@@ -38,8 +38,8 @@
           <div class="die" 
                 v-for="(die, index) in dice" 
                 v-on:click="fixDie(index)" 
-                v-bind:class="{ fixed: isFixed[index] }">
-            {{die.topFace}} {{isFixed[index]}}
+                v-bind:class="{ fixed: isFixed[index], used: isUsed[index] }">
+            {{die.topFace}} {{isFixed[index]}} {{isUsed[index]}}
           </div>
         <div>Remaining rolls: {{remainingRolls}}</div>
         <button v-on:click="roll">Roll dice</button>
