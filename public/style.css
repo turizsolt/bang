@@ -3,32 +3,92 @@ body {
 
 }
 
+.diceHolder {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+}
+
+.diceBg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    display: flex;
+}
+
+.bowlRoll, .bowlKeep {
+    width: 80px;
+    height: 20px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10px;
+    margin-left: 8px;
+    padding-top: 410px;
+}
+
+button.roll, button.keep {
+    font-size: 120%;
+    border-radius: 5px;
+}
+
+.button-holder-holder {
+    display: flex;
+}
+
+.button-holder {
+    width: 80px;
+    margin-right: 20px;
+    height: 50px;
+    text-align: center;
+}
+
+.bowlRoll {
+    background-color: #e2cab1;
+}
+
+.bowlKeep {
+    background-color: #bda994;
+}
 
 .die {
+    /*background-color: chocolate;*/
+    padding: 0;
+    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    height: 62px;
+}
+
+.die img {
     height: 60px;
     width: 60px;
-    background-color: chocolate;
-    padding: 10px;
-    margin: 10px;
-
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-left: 0px;
+    transition: margin-left 0.2s;
 }
 
-.fixed {
+.fixed img {
     background-color: rgb(161, 98, 98);
+    margin-left: 100px;
+    transition: margin-left 0.2s;
 }
 
-.used.fixed {
-    background-color: lightgray;
+.used.fixed img {
+    opacity: 0.4;
+    margin-left: 100px;
+    transition: margin-left 0.2s;
 }
 
-.fixed.using {
-    background-color: lime;
+.fixed.using img {
+    margin-left: 200px;
+    transition: margin-left 0.2s;
 }
 
 .ordered {
-    border: 2px solid black;
-    height: 56px;
-    width: 56px;
+    
 }
 
 .scoreHolder {
@@ -102,3 +162,25 @@ button:disabled {
 .overlayInner button {
     font-size: 2em;
 }
+
+.shake {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }

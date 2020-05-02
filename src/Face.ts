@@ -5,5 +5,5 @@ export enum Face {
     Arrow = 'A', 
     Gatling = 'G', 
     Dynamite = 'D',
-    Empty = ''
+    Empty = '0'
 }

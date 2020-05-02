@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
             dieOrder: [],
             currentOrder: -1,
             targetablePlayers: [],
-            startable: false
+            startable: false,
+            shaking: false
 
         },
         methods: {
@@ -59,9 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             },
             roll: function() {
-                socket.emit('roll', {
-                    
-                });
+                this.shaking = true;
+                setTimeout(() => {
+                    socket.emit('roll', {});
+                    this.shaking = false;
+                }, 500);
             },
             resetDice: function() {
                 socket.emit('reset', {                    

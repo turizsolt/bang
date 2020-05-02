@@ -46,18 +46,33 @@
           </div>
         </div>
       </div>
-      <div id="diceHolder">
-        
+      <div class="diceHolder">
+          <div class="diceBg">
+            <div class="bowlRoll">Dob<br /></div>
+            <div class="bowlKeep">Megtart<br /></div>
+          </div>
           <div class="die" 
                 v-for="(die, index) in dice" 
-                v-on:click="fixDie(index)" 
-                v-bind:class="{ fixed: isFixed[index], used: isUsed[index], using: using === index, ordered: dieOrder[currentOrder].includes(die.topFace) }">
-            {{die.topFace}} {{isFixed[index]}} {{isUsed[index]}}
+                
+                v-bind:class="{ shake: shaking && !isFixed[index] , fixed: isFixed[index], used: isUsed[index], using: using === index, ordered: dieOrder[currentOrder].includes(die.topFace) }" />
+            <img v-bind:src="`/${die.topFace}.png`" v-on:click="fixDie(index)"  />
+          
           </div>
-        <div>Remaining rolls: {{remainingRolls}}</div>        
-        <button v-on:click="roll">Roll dice</button>
-        <button v-on:click="finish">Finish rolling</button>
+          <!--{{die.topFace}} {{isFixed[index]}} {{isUsed[index]}}-->
+      </div>      
+      <div class="button-holder-holder">
+        <div class="button-holder">
+          <button class="roll" v-on:click="roll">Dobok</button>
+        </div>
+        <div class="button-holder">
+          <button class="keep" v-on:click="finish">Kész</button>
+        </div>
       </div>
+
+      <div>Remaining rolls: {{remainingRolls}}</div>        
+      
+      
+      
       <div id="playingArea">
         <div>Nyilak: {{scores.arrows}}</div>
         <div>Soronlévő játékos: {{currentPlayer}} {{currentPlayerName}}</div>
