@@ -17,8 +17,12 @@ body {
     background-color: rgb(161, 98, 98);
 }
 
-.used, .used.fixed {
+.used.fixed {
     background-color: lightgray;
+}
+
+.fixed.using {
+    background-color: lime;
 }
 
 .score {

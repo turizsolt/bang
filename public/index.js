@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
             remainingRolls: 3,
             isFixed: [],
             isUsed: [],
-            //next: startingPlayerName
+            using: -1,
+            currentPlayer: -1,
+            currentPlayerName: "",
 
         },
         methods: {
@@ -70,8 +72,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                 } else {
                     // use
-                    console.log('using die #'+dieId);
+                    console.log('use', dieId, this.using);
+                    if(dieId !== this.using) {
+                        console.log('use1');
+                        socket.emit('selectToUseDie', { dieId });
+                    } else {
+                        console.log('use2');
+                        socket.emit('unselectToUseDie', { dieId });
+                    }
                 }
+            },
+            chooseTarget: function(playerId) {
+                socket.emit('chooseTarget', {playerId});
             },
             finish: function() {
                 socket.emit('finish', {                 
@@ -106,6 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
         app.isFixed = data.dice.isFixed;
         app.isUsed = data.dice.isUsed;
         app.scores = data.scoreStore;
+        app.currentPlayer = data.scoreStore.current;
+        app.currentPlayerName = data.scoreStore.players[data.scoreStore.current].player.name;
+        app.using = data.dice.using;
     })
 });
 

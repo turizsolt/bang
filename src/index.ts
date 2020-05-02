@@ -105,6 +105,22 @@ io.on('connection', socket => {
     emitGame();
   });
 
+  socket.on('selectToUseDie', data => {
+    console.log('stud');
+    dice.selectToUseDie(data.dieId);
+    emitGame();
+  });
+
+  socket.on('unselectToUseDie', data => {
+    dice.unselectToUseDie(data.dieId);
+    emitGame();
+  });
+
+  socket.on('chooseTarget', data => {
+    dice.chooseTarget(data.playerId);
+    emitGame();
+  });
+
   socket.on('finish', data => {
     dice.finished();
     console.log("finished");

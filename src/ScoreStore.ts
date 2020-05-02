@@ -23,6 +23,15 @@ export class ScoreStore {
   getCurrent(){
     return this.current;
   }
+  nextPlayer(){
+    this.current++;
+    if(this.current >= this.players.length) {
+      this.current = 0;
+    }
+    if(this.players[this.current].lives <= 0) {
+      this.nextPlayer();
+    }
+  }
   addPlayer(role: Role, ability: Ability, player?: User) {
     const newPlayer: Score = {
       role,
