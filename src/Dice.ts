@@ -55,21 +55,18 @@ export class Dice {
             for (let i = 0; i < this.getDiceCount(); i++) {
                 console.log(i);
                 if (!this.isFixed[i]) {
-                    this.dice[i].roll();                    
+                    this.dice[i].roll();
+                    // 1. resolve arrows immediately after a single roll            
+                    if(this.dice[i].getFace() === Face.Arrow){
+                        this.scoreStore.arrow(this.scoreStore.getCurrent());
+                    }
                     console.log(i, this.dice[i].getFace());
                 }
                 if (this.dice[i].getFace() === Face.Dynamite) {
                     this.isFixed[i] = true;
                     dynamiteCount++;
                 }
-            }
-            
-            // 1. resolve arrows immediately after a single roll
-            for (let i = 0; i < this.getDiceCount(); i++) {
-                if(this.dice[i].getFace() === Face.Arrow){
-                    this.scoreStore.arrow(this.scoreStore.getCurrent());
-                }
-            }
+            }                 
             
             // 2. resolve dynamites if there is three of them
             if (dynamiteCount > 2) {
