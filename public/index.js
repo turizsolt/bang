@@ -62,10 +62,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             },
             fixDie: function(dieId) {
-                console.log("im clicked");
-                socket.emit('fix', {
-                    dieId,
-                });
+                if(this.remainingRolls > 0) {
+                    // fix and unfix
+                    console.log("im clicked");
+                    socket.emit('fix', {
+                        dieId,
+                    });
+                } else {
+                    // use
+                    console.log('using die #'+dieId);
+                }
             },
             finish: function() {
                 socket.emit('finish', {                 

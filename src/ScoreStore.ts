@@ -8,12 +8,20 @@ export const MAX_ARROWS = 9;
 export class ScoreStore {
   private players: Score[];
   private arrows: number;
+  private current: number;
   constructor() {
     this.players = [];
     this.arrows = MAX_ARROWS;
+    this.current = -1;
   }
   getScores(): Score[] {
     return this.players;
+  }
+  setStartingPlayer(index: number) {
+    this.current = index;
+  }
+  getCurrent(){
+    return this.current;
   }
   addPlayer(role: Role, ability: Ability, player?: User) {
     const newPlayer: Score = {

@@ -20,7 +20,7 @@ app.use(express.static('public'));
 
 const setup = new Setup();
 var scoreStore = new ScoreStore();
-const dice = new Dice();
+const dice = new Dice(scoreStore);
 const withTheseDice = [new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie()];
 dice.start(withTheseDice);
 function emitGame() {
@@ -42,7 +42,7 @@ io.on('connection', socket => {
   socket.on('startGame', data => {
     console.log('startgmae');
     setup.startGame();
-    scoreStore = setup.generateAllPlayers();
+    setup.generateAllPlayers(scoreStore);
     emitGame();
   });
 

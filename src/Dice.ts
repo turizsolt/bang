@@ -1,6 +1,7 @@
 import { StandardDie } from "./StandardDie";
 import { Die } from "./Die";
 import { Face } from "./Face";
+import { ScoreStore } from "./ScoreStore";
 
 export class Dice {
     private dice: Die[];
@@ -9,7 +10,7 @@ export class Dice {
     private isUsed: boolean[];
     private remainingRolls: number;
 
-    constructor() {
+    constructor(private scoreStore?:ScoreStore) {
         this.dice = [];
         this.isFixed = [false,false,false,false,false];
         this.isUsed = [false,false,false,false,false];
@@ -53,13 +54,49 @@ export class Dice {
                     dynamiteCount++;
                 }
             }
-            if (dynamiteCount > 2) {
-                
-                this.finished();
+            
+            // 1. resolve arrows immediately after a single roll
+            for (let i = 0; i < this.getDiceCount(); i++) {
+                if(this.dice[i].getFace() === Face.Arrow){
+                    this.scoreStore.arrow(this.scoreStore.getCurrent());
+                }
             }
-        }
-        if(this.remainingRolls === 0) {
-            this.finished();
+            
+            // 2. resolve dynamites if there is three of them
+            if (dynamiteCount > 2) {
+                this.finished();
+                this.scoreStore.dynamite(this.scoreStore.getCurrent());
+                for (let i = 0; i < this.getDiceCount(); i++) {
+                    if(this.dice[i].getFace() === Face.Dynamite){
+                        this.isUsed[i] = true;
+                    }
+                }
+            }
+            
+            // resolving after the last roll
+            if(this.remainingRolls === 0) {
+                this.finished();
+
+                // count gatlings
+                var gatlingCount = 0;
+                for (let i = 0; i < this.getDiceCount(); i++) {
+                    if(this.dice[i].getFace() === Face.Gatling){
+                        gatlingCount++;
+                    }
+                }   
+
+                // is there three gatling to take effect?
+                if(gatlingCount > 2) {
+                    this.scoreStore.gatling(this.scoreStore.getCurrent());
+                }
+
+                // set arrows, dynamite and gatling dice to used, as they are used
+                for (let i = 0; i < this.getDiceCount(); i++) {
+                    if(this.dice[i].getFace() === Face.Arrow || this.dice[i].getFace() === Face.Dynamite || this.dice[i].getFace() === Face.Gatling){
+                        this.isUsed[i] = true;
+                    }
+                }    
+            }
         }
     }
     finished() {

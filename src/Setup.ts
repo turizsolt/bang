@@ -65,17 +65,18 @@ export class Setup {
     endGame(): void {
         this.gameState = GameState.Lobby;
     }
-    generateAllPlayers(): ScoreStore {
+    generateAllPlayers(scoreStore:ScoreStore) {
         let playerCount = this.users.length;
         let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy];
         let roles = possibleRoles.slice(0,playerCount);
         roles = this.shuffle(roles);
         console.log("szerepek: ",roles);
-        const scoreStore = new ScoreStore();
         for(let i = 0; i < playerCount; i++) {
             scoreStore.addPlayer(roles[i],Ability.None,this.users[i]);
+            if(roles[i] === Role.Sheriff) {
+                scoreStore.setStartingPlayer(i);
+            }
         }
-        return scoreStore;
     }
     shuffle (arr: Role[]): Role[] {
         return arr
