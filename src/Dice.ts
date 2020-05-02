@@ -12,6 +12,7 @@ export class Dice {
     private currentOrder: number;
     private dieOrder: Face[][];
     private targetablePlayers: boolean[];
+    private startable: boolean;
 
     constructor(private scoreStore?:ScoreStore) {
         this.dice = [];
@@ -23,17 +24,22 @@ export class Dice {
         this.hasRolled = false;
         this.using = -1;
         this.currentOrder = 0;
+        this.startable = true;
     }
-    start(withTheseDice: Die[]) {
-        
-        this.dice = withTheseDice;
-        console.log(this.dice);
+    prestart(){
+        this.startable = true;
+    }
+
+    start(withTheseDice?: Die[]) {
+        this.startable = false;
+        if(withTheseDice) {
+            this.dice = withTheseDice;
+        }
         for (let i = 0; i < this.getDiceCount(); i++) {
             this.isFixed[i] = false;
             this.isUsed[i] = false;
             this.dice[i].setFace(Face.Empty);
         }
-        //this.isFixed = [false,false,false,false,false];
         this.remainingRolls = 3;
         this.hasRolled = false;
         this.currentOrder = 0;
@@ -216,6 +222,6 @@ export class Dice {
         if(unused > 0) return;
 
         this.scoreStore.nextPlayer();
-        this.start(this.dice);
+        this.prestart();
     }
 }

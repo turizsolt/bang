@@ -23,6 +23,7 @@ var scoreStore = new ScoreStore();
 const dice = new Dice(scoreStore);
 const withTheseDice = [new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie()];
 dice.start(withTheseDice);
+dice.prestart();
 function emitGame() {
   console.log(dice);
   io.emit('game', {
@@ -118,6 +119,11 @@ io.on('connection', socket => {
 
   socket.on('chooseTarget', data => {
     dice.chooseTarget(data.playerId);
+    emitGame();
+  });
+
+  socket.on('startTurn', data => {
+    dice.start();
     emitGame();
   });
 

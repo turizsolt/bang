@@ -33,6 +33,11 @@
       </div>
     </div>
     <div v-if="gameState === 'game'">
+      <div v-if="startable" class="overlay">
+        <div class="overlayInner">
+          <button v-on:click="startTurn">Kör megkezdése</button>
+        </div>
+      </div>     
       <div>
         <div v-for="(dice, index) in dieOrder" class="dieOrderElement">
           <span v-for="die in dice" class="dieElement">
@@ -49,7 +54,7 @@
                 v-bind:class="{ fixed: isFixed[index], used: isUsed[index], using: using === index, ordered: dieOrder[currentOrder].includes(die.topFace) }">
             {{die.topFace}} {{isFixed[index]}} {{isUsed[index]}}
           </div>
-        <div>Remaining rolls: {{remainingRolls}}</div>
+        <div>Remaining rolls: {{remainingRolls}}</div>        
         <button v-on:click="roll">Roll dice</button>
         <button v-on:click="finish">Finish rolling</button>
       </div>

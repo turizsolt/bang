@@ -22,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
             currentPlayerName: "",
             dieOrder: [],
             currentOrder: -1,
-            targetablePlayers: []
+            targetablePlayers: [],
+            startable: false
 
         },
         methods: {
@@ -92,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 socket.emit('finish', {                 
                 });
             },
-            nextPlayer: function() {
-
+            startTurn: function() {socket.emit('startTurn', {                 
+                });
             }
         },
         computed: {
@@ -127,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
         app.dieOrder = data.dice.dieOrder;
         app.currentOrder = data.dice.currentOrder;
         app.targetablePlayers = data.dice.targetablePlayers;
+        app.startable = data.dice.startable;
     })
 });
 
