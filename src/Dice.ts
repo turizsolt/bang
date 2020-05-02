@@ -8,6 +8,7 @@ export class Dice {
     private isFixed: boolean[];
     private isUsed: boolean[];
     private remainingRolls: number;
+    private maxRolls: number;
     private using: number;
     private currentOrder: number;
     private dieOrder: Face[][];
@@ -20,7 +21,8 @@ export class Dice {
         this.isFixed = [false,false,false,false,false];
         this.isUsed = [false,false,false,false,false];
         this.targetablePlayers = [];
-        this.remainingRolls = 3;
+        this.maxRolls = 3;
+        this.remainingRolls = this.maxRolls;
         this.hasRolled = false;
         this.using = -1;
         this.currentOrder = 0;
@@ -40,7 +42,8 @@ export class Dice {
             this.isUsed[i] = false;
             this.dice[i].setFace(Face.Empty);
         }
-        this.remainingRolls = 3;
+        this.maxRolls = 3;
+        this.remainingRolls = this.maxRolls;
         this.hasRolled = false;
         this.currentOrder = 0;
     }

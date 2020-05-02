@@ -37,8 +37,15 @@
         <div class="overlayInner">
           <button v-on:click="startTurn">Kör megkezdése</button>
         </div>
-      </div>     
-      <div class="phaseContainer">
+      </div> 
+      <div class="topContainer">    
+        <div class="remainingContainer">
+          Dobások
+          <div class="remainingCountContainer">
+            <div v-bind:class="{remaining: true, done: usedRolls > i}" v-for="(roll, i) in rolls">{{usedRolls > i ? "X" : roll + 1}}</div>
+          </div>
+        </div>
+        <div class="phaseContainer">
         Fázis
         <div class="dieOrderContainer">
           <div v-for="(dice, index) in dieOrder" v-bind:class="{dieOrderElement:true, current:index === currentOrder}">
@@ -46,6 +53,7 @@
           </div>
         </div>
       </div>
+    </div>
       <div class="diceHolder">
           <div class="diceBg">
             <div class="bowlRoll">Dob<br /></div>
@@ -58,7 +66,6 @@
             <img v-bind:src="`/${die.topFace}.png`" v-on:click="fixDie(index)"  />
           
           </div>
-          <!--{{die.topFace}} {{isFixed[index]}} {{isUsed[index]}}-->
       </div>      
       <div class="button-holder-holder">
         <div class="button-holder">
@@ -67,11 +74,7 @@
         <div class="button-holder">
           <button class="keep" v-on:click="finish">Kész</button>
         </div>
-      </div>
-
-      <div>Remaining rolls: {{remainingRolls}}</div>        
-      
-      
+      </div>     
       
       <div id="playingArea">
         <div>Nyilak: {{scores.arrows}}</div>

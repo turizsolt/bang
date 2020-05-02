@@ -14,7 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
             scores: [],
             claimedPlayers: [],
             dice: [],
+            rolls: [0, 1, 2],
             remainingRolls: 3,
+            maxRolls: 3,
+            usedRolls: 0,
             isFixed: [],
             isUsed: [],
             using: -1,
@@ -122,6 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         app.dice = data.dice.dice;
         app.remainingRolls = data.dice.remainingRolls;
+        app.rolls = rolly(data.dice.maxRolls);
+        app.maxRolls = data.dice.maxRolls;
+        app.usedRolls = app.maxRolls - data.dice.remainingRolls;
         app.isFixed = data.dice.isFixed;
         app.isUsed = data.dice.isUsed;
         app.scores = data.scoreStore;
@@ -135,3 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 });
 
+function rolly(n) {
+    const arr = [];
+    for(let i=0;i<n;i++) {
+        arr.push(i);
+    }
+    return arr;
+}
