@@ -43,6 +43,15 @@ var app = new Vue({
                 name
             });
         },
+        seven: function() {
+            socket.emit('addPlayer', {name: "Alpha" });
+            socket.emit('addPlayer', {name: "Bravo" });
+            socket.emit('addPlayer', {name: "Charlie" });
+            socket.emit('addPlayer', {name: "Delta" });
+            socket.emit('addPlayer', {name: "Echo" });
+            socket.emit('addPlayer', {name: "Foxtrot" });
+            socket.emit('addPlayer', {name: "Golf" });
+        }
     }
 })
 
