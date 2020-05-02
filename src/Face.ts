@@ -4,5 +4,6 @@ export enum Face {
     Beer = 'B',
     Arrow = 'A', 
     Gatling = 'G', 
-    Dynamite = 'D'
+    Dynamite = 'D',
+    Empty = ''
 }

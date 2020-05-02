@@ -11,12 +11,14 @@ export class Dice {
     private using: number;
     private currentOrder: number;
     private dieOrder: Face[][];
+    private targetablePlayers: boolean[];
 
     constructor(private scoreStore?:ScoreStore) {
         this.dice = [];
         this.dieOrder = [[Face.Arrow], [Face.Dynamite], [Face.BullsEye1, Face.BullsEye2], [Face.Beer], [Face.Gatling], []];
         this.isFixed = [false,false,false,false,false];
         this.isUsed = [false,false,false,false,false];
+        this.targetablePlayers = [];
         this.remainingRolls = 3;
         this.hasRolled = false;
         this.using = -1;
@@ -29,6 +31,7 @@ export class Dice {
         for (let i = 0; i < this.getDiceCount(); i++) {
             this.isFixed[i] = false;
             this.isUsed[i] = false;
+            this.dice[i].setFace(Face.Empty);
         }
         //this.isFixed = [false,false,false,false,false];
         this.remainingRolls = 3;
@@ -155,6 +158,19 @@ export class Dice {
         if(!this.isUsed[dieId]) {
             this.using = dieId;
         }
+
+        this.targetablePlayers = [];
+        const scores = this.scoreStore.getScores();
+        for(let i=0; i< scores.length;i++) {
+            let targetable = true;
+            if(i === this.scoreStore.getCurrent() && [Face.BullsEye1, Face.BullsEye2].includes(this.dice[this.using].getFace())) {
+                targetable = false;
+            }
+            if(scores[i].lives <= 0) {
+                targetable = false;
+            }
+            this.targetablePlayers.push(targetable);
+        }
     }
     unselectToUseDie(dieId: number) {
         if(this.remainingRolls !== 0) return;
@@ -164,6 +180,7 @@ export class Dice {
     }
     chooseTarget(playerId:number){
         if(this.using === -1) return;
+        if(!this.targetablePlayers[playerId]) return;
         console.log('target');
         switch(this.dice[this.using].getFace()) {
             case Face.Beer:

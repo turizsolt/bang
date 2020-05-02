@@ -10,12 +10,15 @@ export class ScoreStore {
   private arrows: number;
   private current: number;
   constructor() {
-    this.players = [];
-    this.arrows = MAX_ARROWS;
-    this.current = -1;
+    this.clear();
   }
   getScores(): Score[] {
     return this.players;
+  }
+  clear() {
+    this.players = [];
+    this.arrows = MAX_ARROWS;
+    this.current = -1;
   }
   setStartingPlayer(index: number) {
     this.current = index;

@@ -63,7 +63,7 @@
             <span v-if="player.role === 'seriff' || player.lives === 0">Szerep: {{player.role}}</span><br>
             Nyilak: {{player.arrows}}<br>
             Töltények: {{player.lives}}<br>
-            <button v-if="using !== -1" v-on:click="chooseTarget(index)">Kiválaszt</button>
+            <button v-if="using !== -1" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
           </div>
         </div>
       </div>

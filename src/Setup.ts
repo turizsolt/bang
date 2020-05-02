@@ -71,6 +71,7 @@ export class Setup {
         let roles = possibleRoles.slice(0,playerCount);
         roles = this.shuffle(roles);
         console.log("szerepek: ",roles);
+        scoreStore.clear();
         for(let i = 0; i < playerCount; i++) {
             scoreStore.addPlayer(roles[i],Ability.None,this.users[i]);
             if(roles[i] === Role.Sheriff) {
