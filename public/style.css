@@ -96,19 +96,27 @@ button.roll, button.keep {
 }
 
 .arrowHolder {
+    border: 1px solid #704D5C;
+    border-radius: 50%;
+    background-color: #ADC3D7;
+    color: #704D5C;
+    width: 90px;
+    padding-top: 21px;
+    height: 69px;
+    text-align: center;
+    font-size: 42px;
+
     position: absolute;
-    left: 670px;
-    top: 370px;
 }
 
 .score {
     height: 140px;
     width: 140px;
-    padding: 10px;
+    border-radius: 50%;
+
     margin: 10px;
     position: absolute;
     background-color: #bda994;
-    border-radius: 10px;
 }
 
 .score.dead {
@@ -117,7 +125,139 @@ button.roll, button.keep {
 }
 
 .score.current {
-    background-color: #a28d2e;
+    background-color: #b94f60;
+}
+
+.turnPlayerName {
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+    width: 280px;
+    height: 280px;
+}
+
+.playerName {
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+    width: 70px;
+    padding-top: 10px;
+    height: 60px;
+    text-align: center;
+    font-size: 36px;
+
+    position: absolute;
+    left: -17px;
+    top: -17px;
+}
+
+.max-lives {
+    font-size: 12px;
+}
+
+.playerLives {
+    border: 1px solid #5E4A1D;
+    border-radius: 50%;
+    background-color: #CBC090;
+    color: #5E4A1D;
+    width: 50px;
+    padding-top: 5px;
+    height: 45px;
+    text-align: center;
+    font-size: 36px;
+
+    position: absolute;
+    left: 30px;
+    top: 35px;
+}
+
+.playerArrows {
+    border: 1px solid #704D5C;
+    border-radius: 50%;
+    background-color: #ADC3D7;
+    color: #704D5C;
+    width: 30px;
+    padding-top: 8px;
+    height: 22px;
+    text-align: center;
+    font-size: 14px;
+
+    position: absolute;
+    left: 75px;
+    top: 45px;
+}
+
+.playerRole, .playerAbility {
+    border-radius: 3px;
+    width: 30px;
+    text-align: center;
+
+    position: absolute;
+}
+
+.playerRole {
+    left: 65px;
+    top: -5px;
+
+    padding-top: 9px;
+    height: 36px;
+    font-size: 22px;
+}
+
+.sheriff {
+    border: 1px solid #464942;
+    background-color: #ffda00;
+    color: #464942;
+}
+
+.outlaw {
+    border: 1px solid #000000;
+    background-color: #c36318;
+    color: #000000;
+}
+
+.renegate {
+    border: 1px solid #ffb8d1;
+    background-color: #c62936;
+    color: #ffb8d1;
+}
+
+.unknown {
+    border: 1px solid #e7ece0;
+    background-color: #464942;
+    color:  #e7ece0;
+}
+
+.playerAbility {
+    border: 1px solid #e7ece0;
+    background-color: #464942;
+    color:  #e7ece0;
+
+    padding-top: 8px;
+    height: 37px;
+    font-size: 14px;
+
+    left: 100px;
+    top: -5px;
+}
+
+.playerTarget {
+    border: black;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    width: 90px;
+    /* padding-top: 8px; */
+    height: 30px;
+    text-align: center;
+    font-size: 14px;
+    position: absolute;
+    left: 25px;
+    top: 90px;
+}
+
+.playerTarget:hover {
+    background-color: #8a8b88;
 }
 
 .topContainer {
@@ -193,12 +333,18 @@ button:disabled {
     top:0;
     bottom:0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
     display: flex;
+}
+
+.startTurn {
+    margin-Top: -20px;
+    padding: 10px;
 }
 
 .overlayInner{
     margin: auto;
+    text-align: center;
 }
 
 .overlayInnerBox{

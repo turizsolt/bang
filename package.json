@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --open",
+    "start": "yarn build && node build/main.js",
     "test:only": "ts-mocha --slow 5 test/**/*.test.{ts,tsx}",
     "test": "nyc ts-mocha test/**/*.test.{ts,tsx}",
     "posttest": "nyc report --reporter=json && nyc report --reporter=html"
