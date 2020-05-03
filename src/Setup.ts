@@ -67,9 +67,10 @@ export class Setup {
     }
     generateAllPlayers(scoreStore:ScoreStore) {
         let playerCount = this.users.length;
+        this.users = this.shuffle<User>(this.users);
         let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy, Role.Outlaw, Role.Deputy, Role.Renegade, Role.Outlaw];
         let roles = possibleRoles.slice(0,playerCount);
-        roles = this.shuffle(roles);
+        roles = this.shuffle<Role>(roles);
         scoreStore.clear();
         for(let i = 0; i < playerCount; i++) {
             scoreStore.addPlayer(roles[i],Ability.None,this.users[i]);
@@ -78,10 +79,10 @@ export class Setup {
             }
         }
     }
-    shuffle (arr: Role[]): Role[] {
+    shuffle<T> (arr: T[]): T[] {
         return arr
-            .map((a:Role) => [Math.random(), a])
-            .sort((a:[number, Role], b:[number, Role]) => a[0] - b[0])
-            .map((a:[number, Role]) => a[1]);
+            .map((a:T) => [Math.random(), a])
+            .sort((a:[number, T], b:[number, T]) => a[0] - b[0])
+            .map((a:[number, T]) => a[1]);
     }
 }
