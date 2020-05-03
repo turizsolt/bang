@@ -1,6 +1,7 @@
 import { Die } from "./Die";
 import { Face } from "./Face";
 import { ScoreStore } from "./ScoreStore";
+import { Ability } from "./Ability";
 
 export class Dice {
     private dice: Die[];
@@ -70,12 +71,15 @@ export class Dice {
                     }
                 }
                 if (this.dice[i].getFace() === Face.Dynamite) {
-                    this.isFixed[i] = true;
+
+                    if(this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) !== Ability.BlackJack) {
+                        this.isFixed[i] = true;
+                    };                    
                     dynamiteCount++;
                 }
             }                 
             
-            // 2. resolve dynamites if there is three of them
+            // 2. resolve dynamites if there are three of them
             if (dynamiteCount > 2) {
                 this.finished();
                 this.scoreStore.dynamite(this.scoreStore.getCurrent());
@@ -170,11 +174,30 @@ export class Dice {
             if(scores[i].lives <= 0) {
                 targetable = false;
             }
-            if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),1) && [Face.BullsEye1].includes(this.dice[this.using].getFace())) {
-                targetable = false;
-            }
-            if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),2) && [Face.BullsEye2].includes(this.dice[this.using].getFace())) {
-                targetable = false;
+            if(this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) === Ability.CalamityJanet){
+                if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),1) 
+                    && !this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),2) 
+                    && [Face.BullsEye1,Face.BullsEye2].includes(this.dice[this.using].getFace())) {
+                    targetable = false;
+                }
+            } else if(this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) === Ability.RoseDoolan) {
+                if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),1) 
+                    && !this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),2)
+                    && [Face.BullsEye1].includes(this.dice[this.using].getFace())) {
+                    targetable = false;
+                }
+                if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),3) 
+                    && !this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),2)
+                    && [Face.BullsEye2].includes(this.dice[this.using].getFace())) {
+                    targetable = false;
+                }
+            } else {
+                if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),1) && [Face.BullsEye1].includes(this.dice[this.using].getFace())) {
+                    targetable = false;
+                }
+                if(!this.scoreStore.isDistance(i,this.scoreStore.getCurrent(),2) && [Face.BullsEye2].includes(this.dice[this.using].getFace())) {
+                    targetable = false;
+                }
             }
             this.targetablePlayers.push(targetable);
         }

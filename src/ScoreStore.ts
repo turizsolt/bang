@@ -42,10 +42,10 @@ export class ScoreStore {
     const newPlayer: Score = {
       role,
       isRoleHidden: role !== Role.Sheriff,
-      ability,
+      ability: Ability.Jourdonnais,  ////////////////////////////////////////////
       arrows: 0,
-      maxLives: role === Role.Sheriff ? 3 : 1,
-      lives: role === Role.Sheriff ? 3 : 1,
+      maxLives: role === Role.Sheriff ? 10 : 8,
+      lives: role === Role.Sheriff ? 10 : 8,
       player: player
     };
     this.players.push(newPlayer);
@@ -57,13 +57,15 @@ export class ScoreStore {
   }
   beer(currentPlayerId: number, receivingPlayerId: number) {
     let currentLives = this.players[receivingPlayerId].lives;
-    if (currentLives != 0) {
+    if(this.getCurrentAbility(currentPlayerId) === Ability.JesseJones && currentPlayerId === receivingPlayerId && currentLives <= 4) {
+      this.setLives(receivingPlayerId, currentLives + 2);
+    } else if (currentLives != 0) {
       this.setLives(receivingPlayerId, currentLives + 1);
     }
   }
   gatling(currentPlayerId: number) {
     for (let i = 0; i < this.players.length; i++) {
-      if (i !== currentPlayerId) {
+      if (i !== currentPlayerId && this.getCurrentAbility(i) !== Ability.PaulRegret) {
         this.setLives(i, this.players[i].lives - 1);
       }
     }
@@ -114,7 +116,6 @@ export class ScoreStore {
           }
           case Role.Outlaw: {          
             outlaw++;
-            console.log(outlaw);
             break;
           }
           case Role.Renegade: {
@@ -150,7 +151,11 @@ export class ScoreStore {
   indians() {
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].lives > 0) {
-        this.setLives(i, Math.max(0, this.players[i].lives - this.players[i].arrows));
+        if(this.getCurrentAbility(i) === Ability.Jourdonnais) {
+          this.setLives(i, Math.max(0, this.players[i].lives - 1));
+        } else {
+          this.setLives(i, Math.max(0, this.players[i].lives - this.players[i].arrows));          
+        }
         this.players[i].arrows = 0;
       }
     }
@@ -204,5 +209,8 @@ export class ScoreStore {
     } 
     
     return false;
+  }
+  getCurrentAbility(currentPlayerId: number): Ability {
+    return this.players[currentPlayerId].ability;
   }
 }
