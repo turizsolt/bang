@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             targetablePlayers: [],
             startable: false,
             shaking: false,
-            
+            showRole: false
         },
         methods: {
             generateDeviceId: function() {
@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("device", this.chosenDevice);
                 this.deviceId = this.generateDeviceId();
                 localStorage.setItem("deviceId",this.deviceId);
+                console.log("device set");
             },
 
             claimPlayer: function(name) {                
@@ -101,6 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             startTurn: function() {socket.emit('startTurn', {                 
                 });
+            },
+            toggleRole: function() {
+                this.showRole = !this.showRole;
             }
         },
         computed: {
@@ -108,6 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 let arr = this.scores.players.filter(x => x.role === "seriff");                
                 return arr[0].player.name;                
             },
+            myScoreOnMobile: function() {
+                return this.scores.players.find(x => x.player.mobile === this.deviceId);
+            }
 
         },
     

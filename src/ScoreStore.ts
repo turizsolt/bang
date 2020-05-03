@@ -88,12 +88,14 @@ export class ScoreStore {
     // put their arrows back
     this.arrows += this.players[playerId].arrows;
     this.players[playerId].arrows = 0;
-    
+
+    this.players[playerId].isRoleHidden = false;
+
     this.whoWon();
   }
   whoWon() {
     if(this.winner) return;
-    
+
     let sheriff = 0;
     let deputy = 0;
     let outlaw = 0;

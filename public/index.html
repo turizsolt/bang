@@ -32,7 +32,7 @@
         </ol>
       </div>
     </div>
-    <div v-if="gameState === 'game'">
+    <div v-if="gameState === 'game' && chosenDevice == 'desktop'">
       <div v-if="startable" class="overlay">
         <div class="overlayInner">
           <button v-on:click="startTurn">Kör megkezdése</button>
@@ -52,14 +52,14 @@
           </div>
         </div>
         <div class="phaseContainer">
-        Fázis
-        <div class="dieOrderContainer">
-          <div v-for="(dice, index) in dieOrder" v-bind:class="{dieOrderElement:true, current:index === currentOrder}">
-            <img v-for="die in dice" class="dieElement" v-bind:src="`/${die}.png`" />
+          Fázis
+          <div class="dieOrderContainer">
+            <div v-for="(dice, index) in dieOrder" v-bind:class="{dieOrderElement:true, current:index === currentOrder}">
+              <img v-for="die in dice" class="dieElement" v-bind:src="`/${die}.png`" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
       <div class="diceHolder">
           <div class="diceBg">
             <div class="bowlRoll">Dob<br /></div>
@@ -68,7 +68,7 @@
           <div class="die" 
                 v-for="(die, index) in dice" 
                 
-                v-bind:class="{ shake: shaking && !isFixed[index] , fixed: isFixed[index], used: isUsed[index], using: using === index, ordered: dieOrder[currentOrder].includes(die.topFace) }" />
+                v-bind:class="{ shake: shaking && !isFixed[index] , fixed: isFixed[index], used: isUsed[index], using: using === index, ordered: dieOrder[currentOrder].includes(die.topFace) }">
             <img v-bind:src="`/${die.topFace}.png`" v-on:click="fixDie(index)"  />
           
           </div>
@@ -101,8 +101,15 @@
         </div>
       </div>
     </div>
+      <div v-if="gameState === 'game' && chosenDevice == 'mobile'">
+        {{myScoreOnMobile.player.name}}<br>
+        <div v-if="myScoreOnMobile.isRoleHidden === false || showRole === true">
+          {{myScoreOnMobile.role}}
+        </div>
+        <button v-on:click="toggleRole">Mutat</button>
+      </div>
+  </div> 
 
-  </div>
 
 </body>
 </html>
