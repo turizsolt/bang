@@ -44,6 +44,9 @@ export class Dice {
             this.dice[i].setFace(Face.Empty);
         }
         this.maxRolls = 3;
+        if(this.scoreStore.getCurrent() !== -1 && this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) === Ability.LuckyDuke) {
+            this.maxRolls = 4;
+        }
         this.remainingRolls = this.maxRolls;
         this.hasRolled = false;
         this.currentOrder = 0;
@@ -71,7 +74,6 @@ export class Dice {
                     }
                 }
                 if (this.dice[i].getFace() === Face.Dynamite) {
-
                     if(this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) !== Ability.BlackJack) {
                         this.isFixed[i] = true;
                     };                    
@@ -86,6 +88,7 @@ export class Dice {
                 for (let i = 0; i < this.getDiceCount(); i++) {
                     if(this.dice[i].getFace() === Face.Dynamite){
                         this.isUsed[i] = true;
+                        this.isFixed[i] = true;
                     }
                 }
             }

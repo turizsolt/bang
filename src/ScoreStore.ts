@@ -4,7 +4,7 @@ import { Score } from './Score';
 import { User } from './Player';
 import { Dice } from './Dice';
 
-export const MAX_ARROWS = 3;
+export const MAX_ARROWS = 9;
 
 export class ScoreStore {
   private players: Score[];
@@ -42,7 +42,7 @@ export class ScoreStore {
     const newPlayer: Score = {
       role,
       isRoleHidden: role !== Role.Sheriff,
-      ability: Ability.Jourdonnais,  ////////////////////////////////////////////
+      ability: Ability.LuckyDuke,  ////////////////////////////////////////////
       arrows: 0,
       maxLives: role === Role.Sheriff ? 10 : 8,
       lives: role === Role.Sheriff ? 10 : 8,
@@ -94,6 +94,12 @@ export class ScoreStore {
     this.players[playerId].isRoleHidden = false;
 
     this.whoWon();
+    if(this.winner) return;
+    for(let i = 0; i < this.players.length; i++) {
+      if(this.players[i].lives > 0 && this.getCurrentAbility(i) === Ability.VultureSam) {
+        this.setLives(i,this.players[i].lives+2);
+      }
+    }
   }
   whoWon() {
     if(this.winner) return;
@@ -151,7 +157,7 @@ export class ScoreStore {
   indians() {
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].lives > 0) {
-        if(this.getCurrentAbility(i) === Ability.Jourdonnais) {
+        if(this.getCurrentAbility(i) === Ability.Jourdonnais && this.players[i].arrows > 0) {
           this.setLives(i, Math.max(0, this.players[i].lives - 1));
         } else {
           this.setLives(i, Math.max(0, this.players[i].lives - this.players[i].arrows));          
