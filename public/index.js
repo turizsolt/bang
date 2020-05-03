@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
       startable: false,
       shaking: false,
       showRole: false,
-      centerX: Math.min(screen.availWidth || 1280, 1280) / 2 + 300,
-      centerY: Math.min(screen.availHeight || 720, 720) / 2,
-      sizeX: Math.min(screen.availWidth || 1280, 1280) / 2 - 150,
-      sizeY: Math.min(screen.availHeight || 720, 720) / 2 - 100,
+      centerX: window.innerWidth / 2 + 125,
+      centerY: window.innerHeight / 2,
+      sizeX: window.innerWidth / 2 - 250,
+      sizeY: window.innerHeight / 2 - 100,
       magicRoot: false,
       closed: false
     },
@@ -163,3 +163,10 @@ function rolly(n) {
   }
   return arr;
 }
+
+window.addEventListener('resize', () => {
+  app.centerX = window.innerWidth / 2 + 125;
+  app.centerY = window.innerHeight / 2;
+  app.sizeX = window.innerWidth / 2 - 250;
+  app.sizeY = window.innerHeight / 2 - 100;
+});
