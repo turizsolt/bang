@@ -1,3 +1,10 @@
 export enum Ability {
-  None
+  None,
+  PaulRegret,
+  BlackJack,
+  CalamityJanet,
+  RoseDoolan,
+  JesseJones,
+  Jourdonnais,
+  SuzyLafayette
 }
