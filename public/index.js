@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
       shaking: false,
       showRole: false,
       centerX: window.innerWidth / 2 + 125,
-      centerY: window.innerHeight / 2 + 50,
+      centerY: window.innerHeight / 2 + 25,
       sizeX: window.innerWidth / 2 - 250,
-      sizeY: window.innerHeight / 2 - 100,
+      sizeY: window.innerHeight / 2 - 150,
       magicRoot: false,
       closed: false
     },
@@ -166,7 +166,7 @@ function rolly(n) {
 
 window.addEventListener('resize', () => {
   app.centerX = window.innerWidth / 2 + 125;
-  app.centerY = window.innerHeight / 2 + 50;
+  app.centerY = window.innerHeight / 2 + 25;
   app.sizeX = window.innerWidth / 2 - 250;
-  app.sizeY = window.innerHeight / 2 - 100;
+  app.sizeY = window.innerHeight / 2 - 150;
 });
