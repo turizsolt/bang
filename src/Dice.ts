@@ -111,6 +111,7 @@ export class Dice {
             for (let i = 0; i < this.getDiceCount(); i++) {
                 if(this.dice[i].getFace() === Face.Gatling){
                     gatlingCount++;
+                    this.isUsed[i] = true;
                 }
             }   
 
@@ -137,9 +138,9 @@ export class Dice {
         this.currentOrder = 2;
         this.nextOrder();
 
-        // set arrows, dynamite and gatling dice to used, as they are used
+        // set arrows, dynamite and dice to used, as they are used
         for (let i = 0; i < this.getDiceCount(); i++) {
-            if(this.dice[i].getFace() === Face.Arrow || this.dice[i].getFace() === Face.Dynamite || this.dice[i].getFace() === Face.Gatling){
+            if(this.dice[i].getFace() === Face.Arrow || this.dice[i].getFace() === Face.Dynamite){
                 this.isUsed[i] = true;
             }
         }    
