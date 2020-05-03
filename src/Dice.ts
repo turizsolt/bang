@@ -83,7 +83,6 @@ export class Dice {
             
             // 2. resolve dynamites if there are three of them
             if (dynamiteCount > 2) {
-                this.finished();
                 this.scoreStore.dynamite(this.scoreStore.getCurrent());
                 for (let i = 0; i < this.getDiceCount(); i++) {
                     if(this.dice[i].getFace() === Face.Dynamite){
@@ -91,10 +90,9 @@ export class Dice {
                         this.isFixed[i] = true;
                     }
                 }
-            }
-            
+                this.finished();
             // resolving after the last roll
-            if(this.remainingRolls === 0 || this.scoreStore.getCurrentLives() <= 0) {
+            } else if(this.remainingRolls === 0 || this.scoreStore.getCurrentLives() <= 0) {
                 this.finished();
             }
         }
