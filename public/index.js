@@ -29,16 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
       startable: false,
       shaking: false,
       showRole: false,
-      centerX: Math.min(screen.availWidth || 1280, 1280) / 2 + 100,
+      centerX: Math.min(screen.availWidth || 1280, 1280) / 2 + 300,
       centerY: Math.min(screen.availHeight || 720, 720) / 2,
-      sizeX: Math.min(screen.availWidth || 1280, 1280) / 2 - 200,
+      sizeX: Math.min(screen.availWidth || 1280, 1280) / 2 - 150,
       sizeY: Math.min(screen.availHeight || 720, 720) / 2 - 100,
-      magicRoot: false
+      magicRoot: false,
+      closed: false
     },
     methods: {
       generateDeviceId: function() {
         let deviceId = Math.floor(Math.random() * 100000000);
         return deviceId;
+      },
+      closeWinner: function() {
+        this.closed = true;
       },
       setDevice: function(device) {
         this.chosenDevice = device;

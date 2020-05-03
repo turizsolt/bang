@@ -39,10 +39,11 @@
           <button class="startTurn" v-on:click="startTurn">{{currentPlayerName}} körének megkezdése</button>
         </div>
       </div>
-      <div v-if="scores.winner" class="overlay">
+      <div v-if="scores.winner && !closed" class="overlay">
         <div class="overlayInnerBox">
           Játék vége <br>
-          Nyertes: {{scores.winner}}
+          Nyertes: {{scores.winner}} <br >
+          <button v-on:click="closeWinner">Becsuk</button>
         </div>
       </div> 
       <div class="topContainer">    
@@ -74,12 +75,12 @@
           
           </div>
       </div>      
-      <div class="button-holder-holder" v-if="(claimedPlayers.includes(currentPlayerName) || magicRoot)">
+      <div class="button-holder-holder" v-if="(claimedPlayers.includes(currentPlayerName) || magicRoot) && remainingRolls > 0">
         <div class="button-holder">
           <button class="roll" v-on:click="roll">Dobok</button>
         </div>
         <div class="button-holder">
-          <button class="keep" v-on:click="finish">Kész</button>
+          <button class="keep" v-on:click="finish" v-if="usedRolls > 0">Kész</button>
         </div>
       </div>     
       
