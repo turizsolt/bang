@@ -33,9 +33,10 @@
       </div>
     </div>
     <div v-if="gameState === 'game' && chosenDevice == 'desktop'">
-      <div v-if="startable" class="overlay">
+      <div v-if="startable && (claimedPlayers.includes(currentPlayerName) || magicRoot)" class="overlay">
         <div class="overlayInner">
-          <button v-on:click="startTurn">Kör megkezdése</button>
+          <div><img class="turnPlayerName" v-bind:style="{backgroundSize: 'cover', backgroundImage: `url('/${currentPlayerName}.png')`}" /></div>
+          <button class="startTurn" v-on:click="startTurn">{{currentPlayerName}} körének megkezdése</button>
         </div>
       </div>
       <div v-if="scores.winner" class="overlay">
@@ -73,7 +74,7 @@
           
           </div>
       </div>      
-      <div class="button-holder-holder">
+      <div class="button-holder-holder" v-if="(claimedPlayers.includes(currentPlayerName) || magicRoot)">
         <div class="button-holder">
           <button class="roll" v-on:click="roll">Dobok</button>
         </div>

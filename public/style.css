@@ -128,6 +128,14 @@ button.roll, button.keep {
     background-color: #b94f60;
 }
 
+.turnPlayerName {
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+    width: 280px;
+    height: 280px;
+}
+
 .playerName {
     border: 1px solid black;
     border-radius: 50%;
@@ -325,12 +333,18 @@ button:disabled {
     top:0;
     bottom:0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
     display: flex;
+}
+
+.startTurn {
+    margin-Top: -20px;
+    padding: 10px;
 }
 
 .overlayInner{
     margin: auto;
+    text-align: center;
 }
 
 .overlayInnerBox{

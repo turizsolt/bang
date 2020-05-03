@@ -1,8 +1,9 @@
+var app;
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
   socket.emit('checkin', {});
 
-  var app = new Vue({
+  app = new Vue({
     el: '#app',
     data: {
       devices: ['mobile', 'desktop'],
@@ -31,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
       centerX: Math.min(screen.availWidth || 1280, 1280) / 2 + 100,
       centerY: Math.min(screen.availHeight || 720, 720) / 2,
       sizeX: Math.min(screen.availWidth || 1280, 1280) / 2 - 200,
-      sizeY: Math.min(screen.availHeight || 720, 720) / 2 - 100
+      sizeY: Math.min(screen.availHeight || 720, 720) / 2 - 100,
+      magicRoot: false
     },
     methods: {
       generateDeviceId: function() {
