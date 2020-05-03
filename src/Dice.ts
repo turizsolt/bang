@@ -153,7 +153,7 @@ export class Dice {
     }
     unfixDie(dieId: number) {
         if(!this.hasRolled) return;
-        if (this.dice[dieId].getFace() !== Face.Dynamite) {
+        if (this.dice[dieId].getFace() !== Face.Dynamite || this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) === Ability.BlackJack) {
             this.isFixed[dieId] = false;
         }
     }
