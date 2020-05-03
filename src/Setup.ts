@@ -69,11 +69,18 @@ export class Setup {
         let playerCount = this.users.length;
         this.users = this.shuffle<User>(this.users);
         let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy, Role.Outlaw, Role.Deputy, Role.Renegade, Role.Outlaw];
+        let possibleAbilities = [
+            Ability.Jourdonnais, Ability.VultureSam, Ability.LuckyDuke,
+            Ability.PaulRegret, 
+            Ability.BlackJack, Ability.CalamityJanet, 
+            Ability.RoseDoolan, Ability.JesseJones, 
+         ];
+        possibleAbilities = this.shuffle<Ability>(possibleAbilities);
         let roles = possibleRoles.slice(0,playerCount);
         roles = this.shuffle<Role>(roles);
         scoreStore.clear();
         for(let i = 0; i < playerCount; i++) {
-            scoreStore.addPlayer(roles[i],Ability.None,this.users[i]);
+            scoreStore.addPlayer(roles[i],possibleAbilities[i],this.users[i]);
             if(roles[i] === Role.Sheriff) {
                 scoreStore.setStartingPlayer(i);
             }

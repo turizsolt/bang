@@ -3,6 +3,7 @@ import { Ability } from './Ability';
 import { Score } from './Score';
 import { User } from './Player';
 import { Dice } from './Dice';
+import { abilityMaxLives } from './AbilityMaxLives';
 
 export const MAX_ARROWS = 9;
 
@@ -42,10 +43,10 @@ export class ScoreStore {
     const newPlayer: Score = {
       role,
       isRoleHidden: role !== Role.Sheriff,
-      ability: Ability.LuckyDuke,  ////////////////////////////////////////////
+      ability: ability,
       arrows: 0,
-      maxLives: role === Role.Sheriff ? 10 : 8,
-      lives: role === Role.Sheriff ? 10 : 8,
+      maxLives: role === Role.Sheriff ? abilityMaxLives[ability] + 2 : abilityMaxLives[ability],
+      lives: role === Role.Sheriff ? abilityMaxLives[ability] + 2 : abilityMaxLives[ability],
       player: player
     };
     this.players.push(newPlayer);
