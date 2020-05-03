@@ -111,7 +111,8 @@ button.roll, button.keep {
 }
 
 .score.dead {
-    background-color: #0064005b;
+    opacity: 0.4;
+    background-color: rgb(230, 216, 201);
 }
 
 .score.current {

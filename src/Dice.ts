@@ -62,14 +62,12 @@ export class Dice {
             this.remainingRolls--;
             let dynamiteCount: number = 0;
             for (let i = 0; i < this.getDiceCount(); i++) {
-                console.log(i);
                 if (!this.isFixed[i]) {
                     this.dice[i].roll();
                     // 1. resolve arrows immediately after a single roll            
                     if(this.dice[i].getFace() === Face.Arrow){
                         this.scoreStore.arrow(this.scoreStore.getCurrent());
                     }
-                    console.log(i, this.dice[i].getFace());
                 }
                 if (this.dice[i].getFace() === Face.Dynamite) {
                     this.isFixed[i] = true;
@@ -89,7 +87,7 @@ export class Dice {
             }
             
             // resolving after the last roll
-            if(this.remainingRolls === 0) {
+            if(this.remainingRolls === 0 || this.scoreStore.getCurrentLives() <= 0) {
                 this.finished();
             }
         }
@@ -102,10 +100,8 @@ export class Dice {
                 count++;
             }
         }
-        console.log('next order count', count);
-
+        
         if(this.currentOrder === 4) {
-            console.log('resolving gatlings');
             // count gatlings
             var gatlingCount = 0;
             for (let i = 0; i < this.getDiceCount(); i++) {
@@ -123,7 +119,6 @@ export class Dice {
             this.currentOrder++;
             this.nextOrder();
         } else if(count === 0 && this.currentOrder<5) {
-            console.log('next++');
             this.currentOrder++;
             this.nextOrder();
         }
@@ -149,7 +144,6 @@ export class Dice {
     }
     fixDie(dieId: number) {
         if(!this.hasRolled) return;
-        console.log("im fixed");
         this.isFixed[dieId] = true;
     }
     unfixDie(dieId: number) {
@@ -194,10 +188,8 @@ export class Dice {
     chooseTarget(playerId:number){
         if(this.using === -1) return;
         if(!this.targetablePlayers[playerId]) return;
-        console.log('target');
         switch(this.dice[this.using].getFace()) {
             case Face.Beer:
-                console.log('beer');
                 this.scoreStore.beer(this.scoreStore.getCurrent(), playerId);
                 break;
             
@@ -218,6 +210,9 @@ export class Dice {
     checkIfUsedAllTheDice() {
         let unused = 0;
         for (let i = 0; i < this.getDiceCount(); i++) {
+            if(this.scoreStore.getCurrentLives() <= 0) {
+                this.isUsed[i] = true;
+            }
             if(this.isUsed[i] === false){
                 unused++;
             }

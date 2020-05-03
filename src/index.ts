@@ -20,12 +20,11 @@ app.use(express.static('public'));
 
 const setup = new Setup();
 var scoreStore = new ScoreStore();
-const dice = new Dice(scoreStore);
+export const dice = new Dice(scoreStore);
 const withTheseDice = [new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie()];
 dice.start(withTheseDice);
 dice.prestart();
 function emitGame() {
-  console.log(dice);
   io.emit('game', {
     gameState: setup.getState(),
     users: setup.getUsers(),
@@ -36,25 +35,23 @@ function emitGame() {
 
 io.on('connection', socket => {
   socket.on('checkin', data => {
-    console.log("hajj");
     emitGame();
   });
 
   socket.on('startGame', data => {
-    console.log('startgmae');
+    dice.start();
+    dice.prestart();
     setup.startGame();
     setup.generateAllPlayers(scoreStore);
     emitGame();
   });
 
   socket.on('endGame', data => {
-    console.log('endgmae');
     setup.endGame();
     emitGame();
   });
 
   socket.on('addPlayer', data => {
-    console.log('new player');
     setup.addUser(data.name, "picture");
     emitGame();
   });
@@ -67,31 +64,26 @@ io.on('connection', socket => {
 
   socket.on('claimPlayer', data => {
     setup.claim(data.name, data.device, data.id);
-    console.log(setup.whoClaimed(data.name,data.device));
     emitGame();
   });
 
   socket.on('unclaimPlayer', data => {
     setup.unclaim(data.name, data.device, data.id);
-    console.log("unclaim");
     emitGame();
   });
 
   socket.on('kickPlayer', data => {
     setup.kick(data.name);
-    console.log("kicked");
     emitGame();
   });
 
   socket.on('roll', data => {
     dice.roll();
-    console.log("rolled");
     emitGame();
   });
 
   socket.on('reset', data => {
     dice.start(withTheseDice);
-    console.log("reset");
     emitGame();
   });
 
@@ -102,12 +94,10 @@ io.on('connection', socket => {
       dice.fixDie(data.dieId);
     }
 
-    console.log(data.dieId);
     emitGame();
   });
 
   socket.on('selectToUseDie', data => {
-    console.log('stud');
     dice.selectToUseDie(data.dieId);
     emitGame();
   });
@@ -129,7 +119,6 @@ io.on('connection', socket => {
 
   socket.on('finish', data => {
     dice.finished();
-    console.log("finished");
     emitGame();
   });
 });

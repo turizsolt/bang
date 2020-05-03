@@ -2,8 +2,10 @@ import { Role } from './Role';
 import { Ability } from './Ability';
 import { Score } from './Score';
 import { User } from './Player';
+import { Dice } from './Dice';
+import { dice } from '.';
 
-export const MAX_ARROWS = 9;
+export const MAX_ARROWS = 3;
 
 export class ScoreStore {
   private players: Score[];
@@ -41,15 +43,15 @@ export class ScoreStore {
       isRoleHidden: role !== Role.Sheriff,
       ability,
       arrows: 0,
-      maxLives: role === Role.Sheriff ? 10 : 8,
-      lives: role === Role.Sheriff ? 10 : 8,
+      maxLives: role === Role.Sheriff ? 3 : 1,
+      lives: role === Role.Sheriff ? 3 : 1,
       player: player
     };
     this.players.push(newPlayer);
   }
   dynamite(currentPlayerId: number) {
     if (currentPlayerId < this.players.length) {
-      this.players[currentPlayerId].lives--;
+      this.setLives(currentPlayerId, this.players[currentPlayerId].lives - 1);
     }
   }
   beer(currentPlayerId: number, receivingPlayerId: number) {
@@ -71,6 +73,25 @@ export class ScoreStore {
     if (-1 < lives && lives <= this.players[playerId].maxLives) {
       this.players[playerId].lives = lives;
     }
+
+    if(lives === 0) {
+      this.justDied(playerId);
+    }
+  }
+  getCurrentLives(){
+    return this.players[this.current].lives;
+  }
+  justDied(playerId: number) {
+    console.log('someone just died');
+
+    // put their arrows back
+    this.arrows += this.players[playerId].arrows;
+    this.players[playerId].arrows = 0;
+
+    // end their turn immediately if its their turn
+    // if(this.current === playerId) {
+    //   dice.turnEndImmediately();
+    // }
   }
   setArrows(playerId: number, arrows: number) {
     this.arrows = this.arrows - arrows;
@@ -82,16 +103,14 @@ export class ScoreStore {
   indians() {
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].lives > 0) {
-        this.players[i].lives = this.players[i].lives - this.players[i].arrows;
-        if (this.players[i].lives < 0) {
-          this.players[i].lives = 0;
-        };
+        this.setLives(i, Math.max(0, this.players[i].lives - this.players[i].arrows));
         this.players[i].arrows = 0;
       }
     }
     this.arrows = MAX_ARROWS;
   }
   arrow(currentPlayerId) {
+    if(this.getCurrentLives() <= 0) return;
     this.players[currentPlayerId].arrows++;
     this.arrows--;
     if (this.arrows < 1) {
@@ -99,10 +118,9 @@ export class ScoreStore {
     }
   }
   shoot(currentPlayerId: number, receivingPlayerId: number) {
-    this.players[receivingPlayerId].lives--;
+    this.setLives(receivingPlayerId, this.players[receivingPlayerId].lives-1);
   }
   isDistance(onePlayerId: number, otherPlayerId: number, dist: number) {
-    console.log('dist', onePlayerId, otherPlayerId, dist);
     // left
     let count = 0;
     let pos = onePlayerId;
@@ -115,7 +133,6 @@ export class ScoreStore {
         count++;
       }
     }
-    console.log('poz', count);
     if(count === dist) {
       return true;
     }
@@ -131,7 +148,6 @@ export class ScoreStore {
         countR++;
       }
     }
-    console.log('neg', countR);
     if(countR === dist) {
       return true;
     }
@@ -139,8 +155,7 @@ export class ScoreStore {
     if(count === 1 && countR === 1) {
       return true;
     } 
-    console.log('false');
-
+    
     return false;
   }
 }

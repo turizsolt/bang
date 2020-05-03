@@ -11,7 +11,6 @@ export class RiggedDie implements Die {
         this.faceIndex = 0;
     }
     roll() {
-        console.log("itt");
         this.setFace(this.rollChain[this.faceIndex]);
         this.faceIndex++;
     }

@@ -70,7 +70,6 @@ export class Setup {
         let possibleRoles = [Role.Sheriff, Role.Outlaw, Role.Outlaw, Role.Renegade, Role.Deputy, Role.Outlaw, Role.Deputy, Role.Renegade, Role.Outlaw];
         let roles = possibleRoles.slice(0,playerCount);
         roles = this.shuffle(roles);
-        console.log("szerepek: ",roles);
         scoreStore.clear();
         for(let i = 0; i < playerCount; i++) {
             scoreStore.addPlayer(roles[i],Ability.None,this.users[i]);
