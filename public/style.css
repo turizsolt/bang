@@ -108,6 +108,7 @@ button.roll, button.keep {
     margin: 10px;
     position: absolute;
     background-color: #bda994;
+    border-radius: 10px;
 }
 
 .score.dead {
@@ -200,8 +201,18 @@ button:disabled {
     margin: auto;
 }
 
+.overlayInnerBox{
+    font-size: 3em;
+    margin: auto;
+    text-align: center;
+    background-color: bisque;
+    padding: 30px;
+    border-radius: 40px;
+}
+
 .overlayInner button {
     font-size: 2em;
+    border-radius: 10px;
 }
 
 .shake {

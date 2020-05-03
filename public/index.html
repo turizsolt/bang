@@ -37,6 +37,12 @@
         <div class="overlayInner">
           <button v-on:click="startTurn">Kör megkezdése</button>
         </div>
+      </div>
+      <div v-if="scores.winner" class="overlay">
+        <div class="overlayInnerBox">
+          Játék vége <br>
+          Nyertes: {{scores.winner}}
+        </div>
       </div> 
       <div class="topContainer">    
         <div class="remainingContainer">

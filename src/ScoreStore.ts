@@ -3,7 +3,6 @@ import { Ability } from './Ability';
 import { Score } from './Score';
 import { User } from './Player';
 import { Dice } from './Dice';
-import { dice } from '.';
 
 export const MAX_ARROWS = 3;
 
@@ -11,6 +10,7 @@ export class ScoreStore {
   private players: Score[];
   private arrows: number;
   private current: number;
+  private winner: Role;
   constructor() {
     this.clear();
   }
@@ -21,6 +21,7 @@ export class ScoreStore {
     this.players = [];
     this.arrows = MAX_ARROWS;
     this.current = -1;
+    this.winner = undefined;
   }
   setStartingPlayer(index: number) {
     this.current = index;
@@ -87,11 +88,55 @@ export class ScoreStore {
     // put their arrows back
     this.arrows += this.players[playerId].arrows;
     this.players[playerId].arrows = 0;
+    
+    this.whoWon();
+  }
+  whoWon() {
+    if(this.winner) return;
+    
+    let sheriff = 0;
+    let deputy = 0;
+    let outlaw = 0;
+    let renegade = 0;
+    console.log("checking winning conditions");
+    for(let i = 0; i < this.players.length; i++) {
+      if(this.players[i].lives > 0) {
+        switch(this.players[i].role) {
+          case Role.Sheriff: {
+            sheriff++;
+            break;
+          }
+          case Role.Deputy: {
+            deputy++;
+            break;
+          }
+          case Role.Outlaw: {          
+            outlaw++;
+            console.log(outlaw);
+            break;
+          }
+          case Role.Renegade: {
+            renegade++;
+            break;
+          }
+        }
+      }  
+    }
+    if(renegade === 1 && sheriff + deputy + outlaw === 0) {
+      this.winner = Role.Renegade;
+      return;
+    };
+    if(outlaw + renegade === 0 && sheriff === 1) { 
+      this.winner = Role.Sheriff;
+      return;
+    };
+    if(sheriff === 0) {
+      this.winner = Role.Outlaw;
+      return;
+    }
+  }
+  gameEnd() {
 
-    // end their turn immediately if its their turn
-    // if(this.current === playerId) {
-    //   dice.turnEndImmediately();
-    // }
   }
   setArrows(playerId: number, arrows: number) {
     this.arrows = this.arrows - arrows;

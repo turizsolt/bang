@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
             currentOrder: -1,
             targetablePlayers: [],
             startable: false,
-            shaking: false
-
+            shaking: false,
+            
         },
         methods: {
             generateDeviceId: function() {
