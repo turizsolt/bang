@@ -101,7 +101,7 @@
             <div class="playerAbility">{{player.ability}}<br />{{player.maxLives}}</div>
             <div class="playerLives"><b>{{player.lives}}</b></div>
             <div class="playerArrows">{{player.arrows}}</div>
-            <button class="playerTarget" v-if="using !== -1" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
+            <button class="playerTarget" v-if="using !== -1 && (claimedPlayers.includes(currentPlayerName) || magicRoot)" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
           </div>
         </div>
       </div>
