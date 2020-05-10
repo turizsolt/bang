@@ -134,4 +134,10 @@ io.on('connection', socket => {
     dice.pedroRamirezResult(data.playerId, data.response);
     emitGame();
   });
+
+  socket.on('bart', data => {
+    console.log('bart', data);
+    dice.bartCassidyResult(data.playerId, data.response);
+    emitGame();
+  });
 });

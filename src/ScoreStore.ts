@@ -104,8 +104,10 @@ export class ScoreStore {
         this.getCurrentAbility(i) !== Ability.PaulRegret
       ) {
         this.players[i].gotDice.push(Face.Gatling);
-        this.setLives(i, this.players[i].lives - 1);
-        this.pedroRamirez(i);
+        if (!this.bartCassidy(i)) {
+          this.setLives(i, this.players[i].lives - 1);
+          this.pedroRamirez(i);
+        }
       }
     }
     this.arrows = this.arrows + this.players[currentPlayerId].arrows;
@@ -127,6 +129,24 @@ export class ScoreStore {
     ) {
       this.dice.pedroRamirez(playerId);
     }
+  }
+  bartCassidy(playerId): boolean {
+    if (
+      this.getCurrentAbility(playerId) === Ability.BartCassidy &&
+      this.arrows > 1
+    ) {
+      this.dice.bartCassidy(playerId);
+      console.log('BC', true);
+      return true;
+    }
+    console.log('BC', false);
+    return false;
+  }
+  bartCassidyArrow(playerId) {
+    this.arrow(playerId);
+  }
+  bartCassidyShoot(playerId) {
+    this.setLives(playerId, this.players[playerId].lives - 1);
   }
 
   pedroRamirezOk(playerId) {
@@ -250,8 +270,13 @@ export class ScoreStore {
     this.players[receivingPlayerId].gotDice.push(
       distance === 1 ? Face.BullsEye1 : Face.BullsEye2
     );
-    this.setLives(receivingPlayerId, this.players[receivingPlayerId].lives - 1);
-    this.pedroRamirez(receivingPlayerId);
+    if (!this.bartCassidy(receivingPlayerId)) {
+      this.setLives(
+        receivingPlayerId,
+        this.players[receivingPlayerId].lives - 1
+      );
+      this.pedroRamirez(receivingPlayerId);
+    }
   }
   isDistance(onePlayerId: number, otherPlayerId: number, dist: number) {
     // left

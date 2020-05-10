@@ -156,6 +156,8 @@ export class Dice {
     }
   }
   nextOrder() {
+    if (this.popupDecision) return;
+
     let count = 0;
     const alloweds = this.dieOrder[this.currentOrder];
     for (let i = 0; i < this.getDiceCount(); i++) {
@@ -391,5 +393,29 @@ export class Dice {
     if (response) {
       this.scoreStore.pedroRamirezOk(playerId);
     }
+    this.nextOrder();
+    this.checkIfUsedAllTheDice();
+  }
+
+  bartCassidy(playerId: number) {
+    this.popupDecision = true;
+    this.pdId++;
+    this.pdType = Ability.BartCassidy;
+    this.pdPlayer = playerId;
+    this.pdTitle =
+      '(Bart Cassidy) eldönti, hogy nyílvesszőt vagy sebzést kér inkább.';
+    this.update();
+  }
+
+  bartCassidyResult(playerId: number, response: string) {
+    this.popupDecision = false;
+    this.pdTitle = '';
+    if (response === 'arrow') {
+      this.scoreStore.bartCassidyArrow(playerId);
+    } else {
+      this.scoreStore.bartCassidyShoot(playerId);
+    }
+    this.nextOrder();
+    this.checkIfUsedAllTheDice();
   }
 }

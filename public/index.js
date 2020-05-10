@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         title: '',
         player: -1,
         playerName: ''
-      }
+      },
+      bartButtons: true
     },
     methods: {
       generateDeviceId: function() {
@@ -132,6 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       pedroNo: function() {
         socket.emit('pedro', { response: false, playerId: this.popup.player });
+      },
+      bartArrow: function() {
+        socket.emit('bart', { response: 'arrow', playerId: this.popup.player });
+        this.bartButtons = false;
+        setTimeout(() => (this.bartButtons = true), 1000);
+      },
+      bartShoot: function() {
+        socket.emit('bart', { response: 'shoot', playerId: this.popup.player });
+        this.bartButtons = false;
+        setTimeout(() => (this.bartButtons = true), 1000);
       }
     },
     computed: {
