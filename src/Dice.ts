@@ -127,10 +127,23 @@ export class Dice {
     if (this.currentOrder === 4) {
       // count gatlings
       var gatlingCount = 0;
+      var unusedGatlings = 0;
+      var usedGatlings = 0;
       for (let i = 0; i < this.getDiceCount(); i++) {
         if (this.dice[i].getFace() === Face.Gatling) {
           gatlingCount++;
-          this.isUsed[i] = true;
+          if (this.isUsed[i]) {
+            usedGatlings++;
+          }
+          if (
+            this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) !==
+            Ability.KitCarlson
+          ) {
+            this.isUsed[i] = true;
+          }
+          if (!this.isUsed[i]) {
+            unusedGatlings++;
+          }
         }
       }
 
@@ -141,11 +154,19 @@ export class Dice {
           this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
             Ability.WillyTheKid)
       ) {
-        this.scoreStore.gatling(this.scoreStore.getCurrent());
+        if (usedGatlings === 0) {
+          this.scoreStore.gatling(this.scoreStore.getCurrent());
+        }
       }
 
-      this.currentOrder++;
-      this.nextOrder();
+      if (
+        this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) !==
+          Ability.KitCarlson ||
+        unusedGatlings === 0
+      ) {
+        this.currentOrder++;
+        this.nextOrder();
+      }
     } else if (count === 0 && this.currentOrder < 5) {
       this.currentOrder++;
       this.nextOrder();
@@ -278,6 +299,10 @@ export class Dice {
 
       case Face.BullsEye2:
         this.scoreStore.shoot(this.scoreStore.getCurrent(), playerId, 2);
+        break;
+
+      case Face.Gatling:
+        this.scoreStore.brokenArrow(this.scoreStore.getCurrent(), playerId);
         break;
     }
     this.isUsed[this.using] = true;

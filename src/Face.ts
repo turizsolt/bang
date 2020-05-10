@@ -6,5 +6,6 @@ export enum Face {
   Gatling = 'G',
   Dynamite = 'D',
   Indians = 'I',
+  BrokenArrow = 'R',
   Empty = '0'
 }
