@@ -111,6 +111,26 @@
         </div>
         <div>Szerepem: {{myRoleOnDesktop}} </div>
         <div v-if="popup.decision">popup {{popup.id}} {{popup.type}}</div>
+
+        <div v-if="popup.decision && !claimedPlayers.includes(popup.playerName)" class="overlay">
+            <div class="overlayInner">
+                    <div class="yesorno-container">
+                        {{popup.playerName}}
+                        {{popup.title}}
+                </div>
+            </div>
+          </div>
+        <div v-if="popup.decision && popup.type === 'PRz' && (claimedPlayers.includes(popup.playerName) || magicRoot)" class="overlay">
+            <div class="overlayInner">
+                <div class="yesorno-container">
+                        <img class="popupPlayerName" v-bind:style="{backgroundSize: 'cover', backgroundImage: `url('/${currentPlayerName}.png')`}" />
+                        <b>{{popup.playerName}}</b> <br />
+                        El akarsz-e dobni egy nyílvesszőt? <br />
+              <button class="yesorno" v-on:click="pedroYes">Igen</button>
+              <button class="yesorno" v-on:click="pedroNo">Nem</button>
+            </div>
+            </div>
+          </div>
       </div>
     </div>
     <div v-if="gameState === 'game' && chosenDevice == 'mobile'">

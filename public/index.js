@@ -38,7 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
       popup: {
         decision: false,
         id: -1,
-        type: undefined
+        type: undefined,
+        title: '',
+        player: -1,
+        playerName: ''
       }
     },
     methods: {
@@ -119,6 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       toggleRole: function() {
         this.showRole = !this.showRole;
+      },
+      pedroYes: function() {
+        console.log('pedroYes', {
+          response: true,
+          playerId: this.popup.player
+        });
+        socket.emit('pedro', { response: true, playerId: this.popup.player });
+      },
+      pedroNo: function() {
+        socket.emit('pedro', { response: false, playerId: this.popup.player });
       }
     },
     computed: {
@@ -170,7 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
     app.popup = {
       decision: data.dice.popupDecision,
       id: data.dice.pdId,
-      type: data.dice.pdType
+      type: data.dice.pdType,
+      title: data.dice.pdTitle,
+      player: data.dice.pdPlayer,
+      playerName:
+        data.dice.pdPlayer > -1
+          ? data.scoreStore.players[data.dice.pdPlayer].player.name
+          : ''
     };
   });
 });

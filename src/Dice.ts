@@ -2,6 +2,7 @@ import { Die } from './Die';
 import { Face } from './Face';
 import { ScoreStore } from './ScoreStore';
 import { Ability } from './Ability';
+import { isObject } from 'util';
 
 export class Dice {
   private dice: Die[];
@@ -18,6 +19,9 @@ export class Dice {
   private popupDecision: boolean;
   private pdId: number;
   private pdType: Ability;
+  private pdPlayer: number;
+  private pdTitle: string;
+  private update: () => void;
 
   constructor(private scoreStore?: ScoreStore) {
     this.dice = [];
@@ -41,7 +45,13 @@ export class Dice {
 
     this.popupDecision = false;
     this.pdId = -1;
+    this.pdTitle = '';
   }
+
+  setUpdate(update: () => void) {
+    this.update = update;
+  }
+
   prestart() {
     this.startable = true;
   }
@@ -364,5 +374,22 @@ export class Dice {
 
     this.scoreStore.nextPlayer();
     this.prestart();
+  }
+
+  pedroRamirez(playerId: number) {
+    this.popupDecision = true;
+    this.pdId++;
+    this.pdType = Ability.PedroRamirez;
+    this.pdPlayer = playerId;
+    this.pdTitle = '(Pedro Ramirez) eldönti, hogy eldob-e egy nyílvesszőt.';
+    this.update();
+  }
+
+  pedroRamirezResult(playerId: number, response: boolean) {
+    this.popupDecision = false;
+    this.pdTitle = '';
+    if (response) {
+      this.scoreStore.pedroRamirezOk(playerId);
+    }
   }
 }

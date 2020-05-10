@@ -1,11 +1,11 @@
-import { Setup } from "./Setup";
+import { Setup } from './Setup';
 
 import express from 'express';
 import * as http from 'http';
 import SocketIO from 'socket.io';
-import { Dice } from "./Dice";
-import { StandardDie } from "./StandardDie";
-import { ScoreStore } from "./ScoreStore";
+import { Dice } from './Dice';
+import { StandardDie } from './StandardDie';
+import { ScoreStore } from './ScoreStore';
 
 const app = express();
 const server = http.createServer(app);
@@ -21,17 +21,25 @@ app.use(express.static('public'));
 const setup = new Setup();
 var scoreStore = new ScoreStore();
 export const dice = new Dice(scoreStore);
-const withTheseDice = [new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie(), new StandardDie()];
+scoreStore.setDice(dice);
+const withTheseDice = [
+  new StandardDie(),
+  new StandardDie(),
+  new StandardDie(),
+  new StandardDie(),
+  new StandardDie()
+];
 dice.start(withTheseDice);
 dice.prestart();
-function emitGame() {
+const emitGame = (): void => {
   io.emit('game', {
     gameState: setup.getState(),
     users: setup.getUsers(),
-    dice: dice,
-    scoreStore: scoreStore
-  })
-}
+    dice: { ...dice, emitGame: null, scoreStore: null },
+    scoreStore: { ...scoreStore, dice: null }
+  });
+};
+dice.setUpdate(emitGame);
 
 io.on('connection', socket => {
   socket.on('checkin', data => {
@@ -52,12 +60,11 @@ io.on('connection', socket => {
   });
 
   socket.on('addPlayer', data => {
-    setup.addUser(data.name, "picture");
+    setup.addUser(data.name, 'picture');
     emitGame();
   });
 
   socket.on('removePlayer', data => {
-
     setup.removeUser(data.name);
     emitGame();
   });
@@ -88,7 +95,7 @@ io.on('connection', socket => {
   });
 
   socket.on('fix', data => {
-    if(dice.getFixedDice()[data.dieId]) {
+    if (dice.getFixedDice()[data.dieId]) {
       dice.unfixDie(data.dieId);
     } else {
       dice.fixDie(data.dieId);
@@ -119,6 +126,12 @@ io.on('connection', socket => {
 
   socket.on('finish', data => {
     dice.finished();
+    emitGame();
+  });
+
+  socket.on('pedro', data => {
+    console.log('pedro', data);
+    dice.pedroRamirezResult(data.playerId, data.response);
     emitGame();
   });
 });

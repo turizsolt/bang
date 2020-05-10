@@ -4,6 +4,7 @@ import { Score } from './Score';
 import { User } from './Player';
 import { abilityMaxLives } from './AbilityMaxLives';
 import { Face } from './Face';
+import { Dice } from './Dice';
 
 export const MAX_ARROWS = 9;
 
@@ -12,8 +13,13 @@ export class ScoreStore {
   private arrows: number;
   private current: number;
   private winner: Role;
+  private dice: Dice;
+
   constructor() {
     this.clear();
+  }
+  setDice(dice: Dice) {
+    this.dice = dice;
   }
   getScores(): Score[] {
     return this.players;
@@ -68,11 +74,13 @@ export class ScoreStore {
   }
   dynamite(currentPlayerId: number) {
     if (currentPlayerId < this.players.length) {
+      this.players[currentPlayerId].gotDice.push(Face.Dynamite);
       this.setLives(currentPlayerId, this.players[currentPlayerId].lives - 1);
+      this.pedroRamirez(currentPlayerId);
     }
-    this.players[currentPlayerId].gotDice.push(Face.Dynamite);
   }
   beer(currentPlayerId: number, receivingPlayerId: number) {
+    this.players[receivingPlayerId].gotDice.push(Face.Beer);
     let currentLives = this.players[receivingPlayerId].lives;
     if (
       this.getCurrentAbility(currentPlayerId) === Ability.JesseJones &&
@@ -83,13 +91,11 @@ export class ScoreStore {
     } else if (currentLives != 0) {
       this.setLives(receivingPlayerId, currentLives + 1);
     }
-
-    this.players[receivingPlayerId].gotDice.push(Face.Beer);
   }
   addLife(receivingPlayerId: number) {
+    this.players[receivingPlayerId].gotDice.push(Face.AddLife);
     let currentLives = this.players[receivingPlayerId].lives;
     this.setLives(receivingPlayerId, currentLives + 1);
-    this.players[receivingPlayerId].gotDice.push(Face.AddLife);
   }
   gatling(currentPlayerId: number) {
     for (let i = 0; i < this.players.length; i++) {
@@ -97,8 +103,9 @@ export class ScoreStore {
         i !== currentPlayerId &&
         this.getCurrentAbility(i) !== Ability.PaulRegret
       ) {
-        this.setLives(i, this.players[i].lives - 1);
         this.players[i].gotDice.push(Face.Gatling);
+        this.setLives(i, this.players[i].lives - 1);
+        this.pedroRamirez(i);
       }
     }
     this.arrows = this.arrows + this.players[currentPlayerId].arrows;
@@ -113,6 +120,19 @@ export class ScoreStore {
       this.justDied(playerId);
     }
   }
+  pedroRamirez(playerId) {
+    if (
+      this.getCurrentAbility(playerId) === Ability.PedroRamirez &&
+      this.players[playerId].arrows > 0
+    ) {
+      this.dice.pedroRamirez(playerId);
+    }
+  }
+
+  pedroRamirezOk(playerId) {
+    this.brokenArrow(null, playerId);
+  }
+
   getCurrentLives() {
     return this.players[this.current].lives;
   }
@@ -211,24 +231,27 @@ export class ScoreStore {
   }
   arrow(currentPlayerId) {
     if (this.getCurrentLives() <= 0) return;
+    this.players[currentPlayerId].gotDice.push(Face.Arrow);
     this.players[currentPlayerId].arrows++;
     this.arrows--;
-    this.players[currentPlayerId].gotDice.push(Face.Arrow);
     if (this.arrows < 1) {
       this.indians();
     }
   }
   brokenArrow(currentPlayerId: number, receivingPlayerId: number) {
+    console.log('recId', receivingPlayerId);
+    if (receivingPlayerId === -1) return;
     this.players[receivingPlayerId].gotDice.push(Face.BrokenArrow);
     if (this.players[receivingPlayerId].arrows === 0) return;
     this.players[receivingPlayerId].arrows--;
     this.arrows++;
   }
   shoot(currentPlayerId: number, receivingPlayerId: number, distance: number) {
-    this.setLives(receivingPlayerId, this.players[receivingPlayerId].lives - 1);
     this.players[receivingPlayerId].gotDice.push(
       distance === 1 ? Face.BullsEye1 : Face.BullsEye2
     );
+    this.setLives(receivingPlayerId, this.players[receivingPlayerId].lives - 1);
+    this.pedroRamirez(receivingPlayerId);
   }
   isDistance(onePlayerId: number, otherPlayerId: number, dist: number) {
     // left

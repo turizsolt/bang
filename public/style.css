@@ -137,6 +137,16 @@ button.roll, button.keep {
     margin-left:160px;
 }
 
+.popupPlayerName {
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+    width: 70px;
+    height: 70px;
+    position: relative;
+    margin-top: -60px;
+}
+
 .playerName {
     border: 1px solid black;
     border-radius: 50%;
@@ -353,7 +363,7 @@ button:disabled {
     top:0;
     bottom:0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
 }
 
@@ -414,3 +424,17 @@ button:disabled {
     margin: 2px 1px 0 3px;
 }
   
+.yesorno-container {
+    width: 300px;
+    background-color: white;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+button.yesorno {
+    width: 100px;
+    font-size: 24px;
+    margin-top: 10px;
+}
