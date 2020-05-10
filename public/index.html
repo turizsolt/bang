@@ -43,7 +43,7 @@
         <div class="overlayInnerBox">
           Játék vége <br>
           Nyertes: {{scores.winner}} <br >
-          <button v-on:click="closeWinner">Becsuk</button>
+          <!--<button v-on:click="closeWinner">Becsuk</button>-->
         </div>
       </div> 
       <div class="topContainer">    
@@ -134,10 +134,10 @@
           <div v-if="popup.decision && popup.type === 'BC' && (claimedPlayers.includes(popup.playerName) || magicRoot)" class="overlay">
                 <div class="overlayInner">
                     <div class="yesorno-container">
-                            <img class="popupPlayerName" v-bind:style="{backgroundSize: 'cover', backgroundImage: `url('/${currentPlayerName}.png')`}" />
+                            <img class="popupPlayerName" v-bind:style="{backgroundSize: 'cover', backgroundImage: `url('/${popup.playerName}.png')`}" />
                             <b>{{popup.playerName}}</b> <br />
                             Inkább nyílvesszőt kérsz, vagy inkább sebződsz? <br />
-                  <button class="yesorno" v-on:click="bartArrow" v-bind:disabled="!bartButtons">Nyílat</button>
+                  <button class="yesorno" v-on:click="bartArrow" v-bind:disabled="!bartButtons">Nyilat</button>
                   <button class="yesorno" v-on:click="bartShoot" v-bind:disabled="!bartButtons">Sebzést</button>
                 </div>
                 </div>

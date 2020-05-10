@@ -8,5 +8,6 @@ export enum Face {
   Indians = 'I',
   BrokenArrow = 'R',
   AddLife = 'L',
+  AddTwoLives = 'L2',
   Empty = '0'
 }

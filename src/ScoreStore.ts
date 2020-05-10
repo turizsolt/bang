@@ -55,7 +55,7 @@ export class ScoreStore {
     const newPlayer: Score = {
       role,
       isRoleHidden: role !== Role.Sheriff,
-      ability: Ability.SuzyLafayette, ///////////////////ability,
+      ability: ability,
       arrows: 0,
       maxLives:
         role === Role.Sheriff
@@ -184,6 +184,7 @@ export class ScoreStore {
         this.getCurrentAbility(this.getCurrent()) === Ability.VultureSam
       ) {
         this.setLives(i, this.players[i].lives + 2);
+        this.players[i].gotDice.push(Face.AddTwoLives);
       }
     }
   }
@@ -343,7 +344,7 @@ export class ScoreStore {
       nOfShots === 0
     ) {
       this.setLives(this.getCurrent(), this.getCurrentLives() + 2);
-      //this.players[this.getCurrent()].gotDice.push(Face.addLife);
+      this.players[this.getCurrent()].gotDice.push(Face.AddTwoLives);
     }
   }
   slabTheKiller() {

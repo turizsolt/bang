@@ -9,9 +9,9 @@ export class StandardDie implements Die {
       Face.BullsEye1,
       Face.BullsEye2,
       Face.Beer,
+      Face.Arrow,
       Face.Gatling,
-      Face.Gatling,
-      Face.Gatling
+      Face.Dynamite
     ];
     this.topFace = Face.Arrow;
   }
