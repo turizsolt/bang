@@ -10,6 +10,7 @@ export interface Score {
   arrows: number;
   maxLives: number;
   lives: number;
+  livesBeforeTurn: number;
   player: User;
   gotDice: Face[];
 }

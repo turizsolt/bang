@@ -30,9 +30,10 @@ export class ScoreStore {
   getCurrent() {
     return this.current;
   }
-  clearGotDice() {
+  clearBeforeTurn() {
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].gotDice = [];
+      this.players[i].livesBeforeTurn = this.players[i].lives;
     }
   }
   nextPlayer() {
@@ -59,8 +60,10 @@ export class ScoreStore {
           ? abilityMaxLives[ability] + 2
           : abilityMaxLives[ability],
       player: player,
+      livesBeforeTurn: 0,
       gotDice: []
     };
+    newPlayer.livesBeforeTurn = newPlayer.lives;
     this.players.push(newPlayer);
   }
   dynamite(currentPlayerId: number) {

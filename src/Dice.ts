@@ -58,7 +58,7 @@ export class Dice {
     ) {
       this.maxRolls = 4;
     }
-    this.scoreStore.clearGotDice();
+    this.scoreStore.clearBeforeTurn();
     this.remainingRolls = this.maxRolls;
     this.hasRolled = false;
     this.currentOrder = 0;
