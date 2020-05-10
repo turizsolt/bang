@@ -341,7 +341,7 @@ export class ScoreStore {
   suzyLafayette(nOfShots: number): void {
     if (
       this.getCurrentAbility(this.getCurrent()) === Ability.SuzyLafayette &&
-      nOfShots === 0
+      nOfShots === 0 && this.getCurrentLives() > 0
     ) {
       this.setLives(this.getCurrent(), this.getCurrentLives() + 2);
       this.players[this.getCurrent()].gotDice.push(Face.AddTwoLives);
