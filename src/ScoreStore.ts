@@ -55,7 +55,7 @@ export class ScoreStore {
     const newPlayer: Score = {
       role,
       isRoleHidden: role !== Role.Sheriff,
-      ability: ability,
+      ability: Ability.SuzyLafayette, ///////////////////ability,
       arrows: 0,
       maxLives:
         role === Role.Sheriff
@@ -82,12 +82,15 @@ export class ScoreStore {
   beer(currentPlayerId: number, receivingPlayerId: number) {
     this.players[receivingPlayerId].gotDice.push(Face.Beer);
     let currentLives = this.players[receivingPlayerId].lives;
+    let startingLives = this.players[receivingPlayerId].livesBeforeTurn;
     if (
-      this.getCurrentAbility(currentPlayerId) === Ability.JesseJones &&
+      this.getCurrentAbility(this.getCurrent()) === Ability.JesseJones &&
       currentPlayerId === receivingPlayerId &&
-      currentLives <= 4
+      startingLives <= 4
     ) {
-      this.setLives(receivingPlayerId, currentLives + 2);
+      console.log('using jesse jones');
+      //this.setLives(receivingPlayerId, currentLives + 2);
+      //  } else if () {
     } else if (currentLives != 0) {
       this.setLives(receivingPlayerId, currentLives + 1);
     }
@@ -101,11 +104,19 @@ export class ScoreStore {
     for (let i = 0; i < this.players.length; i++) {
       if (
         i !== currentPlayerId &&
-        this.getCurrentAbility(i) !== Ability.PaulRegret
+        this.getCurrentAbility(this.getCurrent()) !== Ability.PaulRegret
       ) {
         this.players[i].gotDice.push(Face.Gatling);
         if (!this.bartCassidy(i)) {
           this.setLives(i, this.players[i].lives - 1);
+          if (
+            this.players[i].ability === Ability.ElGringo &&
+            !this.players[i].gotDice.includes(Face.BullsEye1) &&
+            !this.players[i].gotDice.includes(Face.BullsEye2)
+          ) {
+            this.arrow(currentPlayerId);
+          }
+
           this.pedroRamirez(i);
         }
       }
@@ -170,7 +181,7 @@ export class ScoreStore {
     for (let i = 0; i < this.players.length; i++) {
       if (
         this.players[i].lives > 0 &&
-        this.getCurrentAbility(i) === Ability.VultureSam
+        this.getCurrentAbility(this.getCurrent()) === Ability.VultureSam
       ) {
         this.setLives(i, this.players[i].lives + 2);
       }
@@ -234,7 +245,7 @@ export class ScoreStore {
       }
       if (this.players[i].lives > 0) {
         if (
-          this.getCurrentAbility(i) === Ability.Jourdonnais &&
+          this.getCurrentAbility(this.getCurrent()) === Ability.Jourdonnais &&
           this.players[i].arrows > 0
         ) {
           this.setLives(i, Math.max(0, this.players[i].lives - 1));
@@ -249,7 +260,7 @@ export class ScoreStore {
     }
     this.arrows = MAX_ARROWS;
   }
-  arrow(currentPlayerId) {
+  arrow(currentPlayerId: number): void {
     if (this.getCurrentLives() <= 0) return;
     this.players[currentPlayerId].gotDice.push(Face.Arrow);
     this.players[currentPlayerId].arrows++;
@@ -275,6 +286,13 @@ export class ScoreStore {
         receivingPlayerId,
         this.players[receivingPlayerId].lives - 1
       );
+      if (
+        this.players[receivingPlayerId].ability === Ability.ElGringo &&
+        !this.players[receivingPlayerId].gotDice.includes(Face.BullsEye1) &&
+        !this.players[receivingPlayerId].gotDice.includes(Face.BullsEye2)
+      ) {
+        this.arrow(currentPlayerId);
+      }
       this.pedroRamirez(receivingPlayerId);
     }
   }
@@ -316,7 +334,20 @@ export class ScoreStore {
 
     return false;
   }
-  getCurrentAbility(currentPlayerId: number): Ability {
-    return this.players[currentPlayerId].ability;
+  getCurrentAbility(playerId: number): Ability {
+    return this.players[playerId].ability;
+  }
+  suzyLafayette(nOfShots: number): void {
+    if (
+      this.getCurrentAbility(this.getCurrent()) === Ability.SuzyLafayette &&
+      nOfShots === 0
+    ) {
+      this.setLives(this.getCurrent(), this.getCurrentLives() + 2);
+      //this.players[this.getCurrent()].gotDice.push(Face.addLife);
+    }
+  }
+  slabTheKiller() {
+    if (this.getCurrentAbility(this.getCurrent()) === Ability.SlabTheKiller) {
+    }
   }
 }

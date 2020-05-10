@@ -373,7 +373,14 @@ export class Dice {
     }
 
     if (unused > 0) return;
-
+    let bullseye = 0;
+    for (let i = 0; i < this.getDiceCount(); i++) {
+      if (this.getDieFace(i) === Face.BullsEye1 || this.getDieFace(i) === Face.BullsEye2) {
+        bullseye++;
+      }
+    }
+    this.scoreStore.suzyLafayette(bullseye);
+    
     this.scoreStore.nextPlayer();
     this.prestart();
   }
