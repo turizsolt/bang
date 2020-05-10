@@ -53,7 +53,7 @@ export class Dice {
     this.maxRolls = 3;
     if (
       this.scoreStore.getCurrent() !== -1 &&
-      this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
+      this.scoreStore.getCurrentAbility() ===
         Ability.LuckyDuke
     ) {
       this.maxRolls = 4;
@@ -87,7 +87,7 @@ export class Dice {
         }
         if (this.dice[i].getFace() === Face.Dynamite) {
           if (
-            this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) !==
+            this.scoreStore.getCurrentAbility() !==
             Ability.BlackJack
           ) {
             this.isFixed[i] = true;
@@ -176,7 +176,7 @@ export class Dice {
     if (!this.hasRolled) return;
     if (
       this.dice[dieId].getFace() !== Face.Dynamite ||
-      this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
+      this.scoreStore.getCurrentAbility() ===
         Ability.BlackJack
     ) {
       this.isFixed[dieId] = false;
@@ -206,7 +206,7 @@ export class Dice {
         targetable = false;
       }
       if (
-        this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
+        this.scoreStore.getCurrentAbility() ===
         Ability.CalamityJanet
       ) {
         if (
@@ -219,7 +219,7 @@ export class Dice {
           targetable = false;
         }
       } else if (
-        this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
+        this.scoreStore.getCurrentAbility() ===
         Ability.RoseDoolan
       ) {
         if (
@@ -296,7 +296,14 @@ export class Dice {
     }
 
     if (unused > 0) return;
-
+    let bullseye = 0;
+    for (let i = 0; i < this.getDiceCount(); i++) {
+      if (this.getDieFace(i) === Face.BullsEye1 || this.getDieFace(i) === Face.BullsEye2) {
+        bullseye++;
+      }
+    }
+    this.scoreStore.suzyLafayette(bullseye);
+    
     this.scoreStore.nextPlayer();
     this.prestart();
   }

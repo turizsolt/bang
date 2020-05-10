@@ -49,7 +49,7 @@ export class ScoreStore {
     const newPlayer: Score = {
       role,
       isRoleHidden: role !== Role.Sheriff,
-      ability: ability,
+      ability: Ability.SuzyLafayette,///////////////////ability,
       arrows: 0,
       maxLives:
         role === Role.Sheriff
@@ -76,9 +76,9 @@ export class ScoreStore {
     let currentLives = this.players[receivingPlayerId].lives;
     let startingLives = this.players[receivingPlayerId].livesBeforeTurn;
     if (
-      this.getCurrentAbility(currentPlayerId) === Ability.JesseJones &&
+      this.getCurrentAbility() === Ability.JesseJones &&
       currentPlayerId === receivingPlayerId &&
-      startingLives <= 4 || currentLives <= 4
+      startingLives <= 4
     ) {
       console.log("using jesse jones");
       //this.setLives(receivingPlayerId, currentLives + 2);
@@ -94,7 +94,7 @@ export class ScoreStore {
     for (let i = 0; i < this.players.length; i++) {
       if (
         i !== currentPlayerId &&
-        this.getCurrentAbility(i) !== Ability.PaulRegret
+        this.getCurrentAbility() !== Ability.PaulRegret
       ) {
         this.setLives(i, this.players[i].lives - 1);
         this.players[i].gotDice.push(Face.Gatling);
@@ -134,7 +134,7 @@ export class ScoreStore {
     for (let i = 0; i < this.players.length; i++) {
       if (
         this.players[i].lives > 0 &&
-        this.getCurrentAbility(i) === Ability.VultureSam
+        this.getCurrentAbility() === Ability.VultureSam
       ) {
         this.setLives(i, this.players[i].lives + 2);
       }
@@ -198,7 +198,7 @@ export class ScoreStore {
       }
       if (this.players[i].lives > 0) {
         if (
-          this.getCurrentAbility(i) === Ability.Jourdonnais &&
+          this.getCurrentAbility() === Ability.Jourdonnais &&
           this.players[i].arrows > 0
         ) {
           this.setLives(i, Math.max(0, this.players[i].lives - 1));
@@ -271,7 +271,12 @@ export class ScoreStore {
 
     return false;
   }
-  getCurrentAbility(currentPlayerId: number): Ability {
-    return this.players[currentPlayerId].ability;
+  getCurrentAbility(): Ability {
+    return this.players[this.getCurrent()].ability;
+  }
+  suzyLafayette(nOfShots: number): void {
+    if (this.getCurrentAbility() === Ability.SuzyLafayette && nOfShots === 0) {
+      this.setLives(this.getCurrent(), this.getCurrentLives() + 2);      
+    }
   }
 }
