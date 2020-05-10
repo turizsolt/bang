@@ -222,6 +222,12 @@ export class ScoreStore {
       this.indians();
     }
   }
+  brokenArrow(currentPlayerId: number, receivingPlayerId: number) {
+    this.players[receivingPlayerId].gotDice.push(Face.BrokenArrow);
+    if (this.players[receivingPlayerId].arrows === 0) return;
+    this.players[receivingPlayerId].arrows--;
+    this.arrows++;
+  }
   shoot(currentPlayerId: number, receivingPlayerId: number, distance: number) {
     this.setLives(receivingPlayerId, this.players[receivingPlayerId].lives - 1);
     if (this.players[receivingPlayerId].ability === Ability.ElGringo 
