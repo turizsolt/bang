@@ -135,7 +135,12 @@ export class Dice {
       }
 
       // is there three gatling to take effect?
-      if (gatlingCount > 2) {
+      if (
+        gatlingCount > 2 ||
+        (gatlingCount > 1 &&
+          this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
+            Ability.WillyTheKid)
+      ) {
         this.scoreStore.gatling(this.scoreStore.getCurrent());
       }
 
