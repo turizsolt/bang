@@ -53,7 +53,7 @@ export class Dice {
     this.maxRolls = 3;
     if (
       this.scoreStore.getCurrent() !== -1 &&
-      this.scoreStore.getCurrentAbility() ===
+      this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
         Ability.LuckyDuke
     ) {
       this.maxRolls = 4;
@@ -87,7 +87,7 @@ export class Dice {
         }
         if (this.dice[i].getFace() === Face.Dynamite) {
           if (
-            this.scoreStore.getCurrentAbility() !==
+            this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) !==
             Ability.BlackJack
           ) {
             this.isFixed[i] = true;
@@ -202,7 +202,7 @@ export class Dice {
     if (!this.hasRolled) return;
     if (
       this.dice[dieId].getFace() !== Face.Dynamite ||
-      this.scoreStore.getCurrentAbility() ===
+      this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
         Ability.BlackJack
     ) {
       this.isFixed[dieId] = false;
@@ -232,7 +232,7 @@ export class Dice {
         targetable = false;
       }
       if (
-        this.scoreStore.getCurrentAbility() ===
+        this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
         Ability.CalamityJanet
       ) {
         if (
@@ -245,7 +245,7 @@ export class Dice {
           targetable = false;
         }
       } else if (
-        this.scoreStore.getCurrentAbility() ===
+        this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
         Ability.RoseDoolan
       ) {
         if (
