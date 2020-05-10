@@ -9,7 +9,7 @@ describe('Player scores - Shoot', () => {
     scoreStore.addPlayer(Role.Sheriff, Ability.None);
     scoreStore.addPlayer(Role.Outlaw, Ability.None);
 
-    scoreStore.shoot(0, 1);
+    scoreStore.shoot(0, 1, 1);
 
     const scores = scoreStore.getScores();
     expect(scores[1].lives).equals(7);

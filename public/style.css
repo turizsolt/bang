@@ -256,6 +256,25 @@ button.roll, button.keep {
     top: 90px;
 }
 
+.playerGotDice {
+    width: 90px;
+    height: 30px;
+    text-align: center;
+    position: absolute;
+    left: 25px;
+    top: 90px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.playerGotDice img {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid black;
+}
+
 .playerTarget:hover {
     background-color: #8a8b88;
 }
@@ -344,7 +363,9 @@ button:disabled {
 
 .overlayInner{
     margin: auto;
-    text-align: center;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .overlayInnerBox{
