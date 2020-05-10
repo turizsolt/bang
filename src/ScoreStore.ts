@@ -74,12 +74,16 @@ export class ScoreStore {
   }
   beer(currentPlayerId: number, receivingPlayerId: number) {
     let currentLives = this.players[receivingPlayerId].lives;
+    let startingLives = this.players[receivingPlayerId].livesBeforeTurn;
     if (
       this.getCurrentAbility(currentPlayerId) === Ability.JesseJones &&
       currentPlayerId === receivingPlayerId &&
-      currentLives <= 4
+      startingLives <= 4 || currentLives <= 4
     ) {
-      this.setLives(receivingPlayerId, currentLives + 2);
+      console.log("using jesse jones");
+      //this.setLives(receivingPlayerId, currentLives + 2);
+  //  } else if () {
+      
     } else if (currentLives != 0) {
       this.setLives(receivingPlayerId, currentLives + 1);
     }
@@ -94,6 +98,11 @@ export class ScoreStore {
       ) {
         this.setLives(i, this.players[i].lives - 1);
         this.players[i].gotDice.push(Face.Gatling);
+        if (this.players[i].ability === Ability.ElGringo 
+          && !this.players[i].gotDice.includes(Face.BullsEye1)
+          && !this.players[i].gotDice.includes(Face.BullsEye2)) {
+        this.arrow(currentPlayerId);
+      }
       }
     }
     this.arrows = this.arrows + this.players[currentPlayerId].arrows;
@@ -215,6 +224,11 @@ export class ScoreStore {
   }
   shoot(currentPlayerId: number, receivingPlayerId: number, distance: number) {
     this.setLives(receivingPlayerId, this.players[receivingPlayerId].lives - 1);
+    if (this.players[receivingPlayerId].ability === Ability.ElGringo 
+        && !this.players[receivingPlayerId].gotDice.includes(Face.BullsEye1)
+        && !this.players[receivingPlayerId].gotDice.includes(Face.BullsEye2)) {
+      this.arrow(currentPlayerId);
+    }
     this.players[receivingPlayerId].gotDice.push(
       distance === 1 ? Face.BullsEye1 : Face.BullsEye2
     );
