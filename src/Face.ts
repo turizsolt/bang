@@ -7,5 +7,6 @@ export enum Face {
   Dynamite = 'D',
   Indians = 'I',
   BrokenArrow = 'R',
+  AddLife = 'L',
   Empty = '0'
 }

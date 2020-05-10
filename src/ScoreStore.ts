@@ -86,6 +86,11 @@ export class ScoreStore {
 
     this.players[receivingPlayerId].gotDice.push(Face.Beer);
   }
+  addLife(receivingPlayerId: number) {
+    let currentLives = this.players[receivingPlayerId].lives;
+    this.setLives(receivingPlayerId, currentLives + 1);
+    this.players[receivingPlayerId].gotDice.push(Face.AddLife);
+  }
   gatling(currentPlayerId: number) {
     for (let i = 0; i < this.players.length; i++) {
       if (

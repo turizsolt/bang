@@ -132,8 +132,9 @@ button.roll, button.keep {
     border: 1px solid black;
     border-radius: 50%;
     background-color: white;
-    width: 280px;
-    height: 280px;
+    width: 140px;
+    height: 140px;
+    margin-left:160px;
 }
 
 .playerName {
@@ -380,6 +381,7 @@ button:disabled {
 .overlayInner button {
     font-size: 2em;
     border-radius: 10px;
+    width: 460px;
 }
 
 .shake {

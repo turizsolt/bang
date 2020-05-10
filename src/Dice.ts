@@ -15,6 +15,9 @@ export class Dice {
   private dieOrder: Face[][];
   private targetablePlayers: boolean[];
   private startable: boolean;
+  private popupDecision: boolean;
+  private pdId: number;
+  private pdType: Ability;
 
   constructor(private scoreStore?: ScoreStore) {
     this.dice = [];
@@ -35,6 +38,9 @@ export class Dice {
     this.using = -1;
     this.currentOrder = 0;
     this.startable = true;
+
+    this.popupDecision = false;
+    this.pdId = -1;
   }
   prestart() {
     this.startable = true;
@@ -62,6 +68,26 @@ export class Dice {
     this.remainingRolls = this.maxRolls;
     this.hasRolled = false;
     this.currentOrder = 0;
+
+    if (
+      this.scoreStore.getCurrent() !== -1 &&
+      this.scoreStore.getCurrentAbility(this.scoreStore.getCurrent()) ===
+        Ability.SidKetchum
+    ) {
+      this.popupDecision = true;
+      this.pdId++;
+      this.pdType = Ability.SidKetchum;
+
+      this.targetablePlayers = [];
+      const scores = this.scoreStore.getScores();
+      for (let i = 0; i < scores.length; i++) {
+        let targetable = true;
+        if (scores[i].lives <= 0) {
+          targetable = false;
+        }
+        this.targetablePlayers.push(targetable);
+      }
+    }
   }
   getRemainingRolls() {
     return this.remainingRolls;
@@ -74,6 +100,10 @@ export class Dice {
   }
   roll() {
     if (this.remainingRolls > 0) {
+      if (this.popupDecision && this.pdType === Ability.SidKetchum) {
+        this.popupDecision = false;
+      }
+
       this.hasRolled = true;
       this.remainingRolls--;
       let dynamiteCount: number = 0;
@@ -286,6 +316,11 @@ export class Dice {
     }
   }
   chooseTarget(playerId: number) {
+    if (this.popupDecision && this.pdType === Ability.SidKetchum) {
+      this.scoreStore.addLife(playerId);
+      this.popupDecision = false;
+      return;
+    }
     if (this.using === -1) return;
     if (!this.targetablePlayers[playerId]) return;
     switch (this.dice[this.using].getFace()) {

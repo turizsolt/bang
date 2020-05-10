@@ -34,7 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
       sizeX: window.innerWidth / 2 - 250,
       sizeY: window.innerHeight / 2 - 150,
       magicRoot: false,
-      closed: false
+      closed: false,
+      popup: {
+        decision: false,
+        id: -1,
+        type: undefined
+      }
     },
     methods: {
       generateDeviceId: function() {
@@ -75,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       roll: function() {
         this.shaking = true;
+        this.popup.decision = false;
         setTimeout(() => {
           socket.emit('roll', {});
           this.shaking = false;
@@ -124,11 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return this.scores.players.find(x => x.player.mobile === this.deviceId);
       },
       myRoleOnDesktop: function() {
-        let onThisDesktop = this.scores.players.filter(x => x.player.desktop === this.deviceId);
-        if(onThisDesktop.length === 1) {
+        let onThisDesktop = this.scores.players.filter(
+          x => x.player.desktop === this.deviceId
+        );
+        if (onThisDesktop.length === 1) {
           return onThisDesktop[0].role;
         }
-        
       }
     }
   });
@@ -160,6 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
     app.currentOrder = data.dice.currentOrder;
     app.targetablePlayers = data.dice.targetablePlayers;
     app.startable = data.dice.startable;
+    app.popup = {
+      decision: data.dice.popupDecision,
+      id: data.dice.pdId,
+      type: data.dice.pdType
+    };
   });
 });
 

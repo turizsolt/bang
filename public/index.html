@@ -101,7 +101,7 @@
             <div class="playerAbility">{{player.ability}}<br />{{player.maxLives}}</div>
             <div class="playerLives"><b>{{player.lives}}</b></div>
             <div class="playerArrows">{{player.arrows}}</div>
-            <button class="playerTarget" v-if="using !== -1 && (claimedPlayers.includes(currentPlayerName) || magicRoot)" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
+            <button class="playerTarget" v-if="(using !== -1 && (claimedPlayers.includes(currentPlayerName) || magicRoot) || (popup.decision && popup.type === 'SK' && (claimedPlayers.includes(currentPlayerName) || magicRoot)))" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
             <div v-else class="playerGotDice">
                 <div v-for="die in player.gotDice">
                     <img v-bind:src="`/${die}.png`" />
@@ -110,6 +110,7 @@
           </div>
         </div>
         <div>Szerepem: {{myRoleOnDesktop}} </div>
+        <div v-if="popup.decision">popup {{popup.id}} {{popup.type}}</div>
       </div>
     </div>
     <div v-if="gameState === 'game' && chosenDevice == 'mobile'">
