@@ -104,15 +104,16 @@
             <button class="playerTarget" v-if="using !== -1 && (claimedPlayers.includes(currentPlayerName) || magicRoot)" v-on:click="chooseTarget(index)" v-bind:disabled="!targetablePlayers[index]">Kiválaszt</button>
           </div>
         </div>
+        <div>Szerepem: {{myRoleOnDesktop}} </div>
       </div>
     </div>
-      <div v-if="gameState === 'game' && chosenDevice == 'mobile'">
-        {{myScoreOnMobile.player.name}}<br>
-        <div v-if="myScoreOnMobile.isRoleHidden === false || showRole === true">
-          {{myScoreOnMobile.role}}
-        </div>
-        <button v-on:click="toggleRole">Mutat</button>
+    <div v-if="gameState === 'game' && chosenDevice == 'mobile'">
+      {{myScoreOnMobile.player.name}}<br>
+      <div v-if="myScoreOnMobile.isRoleHidden === false || showRole === true">
+        {{myScoreOnMobile.role}}
       </div>
+      <button v-on:click="toggleRole">Mutat</button>
+    </div>
   </div> 
 
 

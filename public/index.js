@@ -122,6 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       myScoreOnMobile: function() {
         return this.scores.players.find(x => x.player.mobile === this.deviceId);
+      },
+      myRoleOnDesktop: function() {
+        let onThisDesktop = this.scores.players.filter(x => x.player.desktop === this.deviceId);
+        if(onThisDesktop.length === 1) {
+          return onThisDesktop[0].role;
+        }
+        
       }
     }
   });
