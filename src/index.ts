@@ -10,7 +10,7 @@ import { ScoreStore } from './ScoreStore';
 const app = express();
 const server = http.createServer(app);
 const io = SocketIO(server);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3011;
 
 server.listen(port, () => {
   console.log('Server listening at port %d', port);

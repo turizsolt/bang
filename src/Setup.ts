@@ -87,7 +87,7 @@ export class Setup {
       Ability.BlackJack,
       Ability.CalamityJanet,
       Ability.RoseDoolan,
-      Ability.BartCassidy,
+      // Ability.BartCassidy,
       Ability.PedroRamirez,
       Ability.ElGringo,
       Ability.SidKetchum,
